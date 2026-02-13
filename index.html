@@ -5,20 +5,86 @@
 <title>For YASSSAMINE ❤️</title>
 
 <style>
+
+/* ===== Body ===== */
 body {
   margin: 0;
-  padding: 0;
   font-family: Arial, sans-serif;
-  text-align: center;
-  background: linear-gradient(to right, #ff9a9e, #fad0c4);
+  background: linear-gradient(135deg,#ff9a9e,#fad0c4,#fad0c4,#ff9a9e);
+  background-size: 300% 300%;
+  animation: bgMove 8s ease infinite;
   color: white;
+  text-align: center;
 }
 
-/* ===== شاشة الباسورد ===== */
+@keyframes bgMove {
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* ===== Card container ===== */
+.container, #secondPage{
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 25px;
+  padding: 40px;
+  margin: 80px auto;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0; transform:translateY(20px)}
+  to{opacity:1; transform:translateY(0)}
+}
+
+/* ===== Buttons ===== */
+button{
+  padding:12px 25px;
+  font-size:18px;
+  border:none;
+  border-radius:30px;
+  cursor:pointer;
+  margin:10px;
+  transition:0.3s;
+  box-shadow:0 5px 15px rgba(0,0,0,0.2);
+}
+
+button:hover{
+  transform: scale(1.1);
+}
+
+#yesBtn{
+  background:white;
+  color:#ff4d88;
+}
+
+#noBtn{
+  background:#ff4d88;
+  color:white;
+}
+
+/* ===== Images ===== */
+img{
+  width:250px;
+  border-radius:20px;
+  margin-top:20px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.3);
+  transition:0.4s;
+}
+
+img:hover{
+  transform:scale(1.05);
+}
+
+/* ===== Lock screen ===== */
 #lockScreen{
-  position: fixed;
-  inset: 0;
-  background: #111;
+  position:fixed;
+  inset:0;
+  background:#111;
   display:flex;
   justify-content:center;
   align-items:center;
@@ -27,63 +93,44 @@ body {
 }
 
 #lockScreen input{
-  padding:10px;
+  padding:12px;
+  border-radius:12px;
+  border:none;
   font-size:18px;
-  border-radius:10px;
-  border:none;
-  margin-top:10px;
 }
 
-#lockScreen button{
-  padding:10px 20px;
-  margin-top:10px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
+/* ===== Popup ===== */
+.popup{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(8px);
+  display:none;
+  justify-content:center;
+  align-items:center;
 }
 
-/* ===== موقعك الأصلي (ما تبدل والو) ===== */
-.container {
-  margin-top: 100px;
+.popup-box{
+  background:white;
+  color:#ff4d88;
+  padding:40px;
+  border-radius:25px;
+  animation:pop .3s ease;
+  box-shadow:0 10px 30px rgba(0,0,0,.4);
 }
 
-button {
-  padding: 10px 20px;
-  font-size: 18px;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  margin: 10px;
-  transition: 0.3s;
+@keyframes pop{
+  from{transform:scale(.5);opacity:0}
+  to{transform:scale(1);opacity:1}
 }
 
-#yesBtn {
-  background-color: white;
-  color: #ff4d88;
+.popup-box button{
+  background:#ff4d88;
+  color:white;
 }
 
-#noBtn {
-  background-color: #ff4d88;
-  color: white;
-}
-
-#secondPage {
-  display: none;
-  padding: 40px;
-}
-
-img {
-  width: 250px;
-  border-radius: 20px;
-  margin-top: 20px;
-}
-
-.finalMessage {
-  margin-top: 30px;
-  font-size: 24px;
-  font-weight: bold;
-}
 </style>
+
 </head>
 
 <body>
@@ -118,9 +165,11 @@ img {
 
   <p style="margin-top:20px;">
     <h3> سفف تزوجنا نتي دب تحت الحماية ديالي<br></h3>
-    <br>
-    ❤️ ضاهر طاهر و مخفي العاهر
+    
   </p>
+
+  <br>
+  <button onclick="surprise()">🎁 مفاجأة</button>
 
   <br>
   <button onclick="goToLovePage()" style="margin-top:30px; font-size:20px;">
@@ -139,7 +188,7 @@ function checkPass(){
     document.getElementById("lockScreen").style.display = "none";
     document.getElementById("firstPage").style.display = "block";
   }else{
-    alert("Wrong password ❌");
+    alert("سير تقود نتا ماشي ياسمين 🖕🏻❌");
   }
 }
 
@@ -152,10 +201,12 @@ let secondPage = document.getElementById("secondPage");
 
 let yesSize = 18;
 
-noBtn.addEventListener("click", function() {
-  yesSize += 10;
-  yesBtn.style.fontSize = yesSize + "px";
+noBtn.addEventListener("mouseover", function() {
+  noBtn.style.position = "absolute";
+  noBtn.style.left = Math.random()*300 + "px";
+  noBtn.style.top = Math.random()*300 + "px";
 });
+
 
 yesBtn.addEventListener("click", function() {
   firstPage.style.display = "none";
@@ -167,6 +218,52 @@ function goToLovePage(){
 }
 
 </script>
+<script>
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.innerHTML = "😘🫵";
+  heart.style.position = "fixed";
+  heart.style.top = "-20px";
+  heart.style.left = Math.random() * window.innerWidth + "px";
+  heart.style.fontSize = "24px";
+  heart.style.animation = "fall 4s linear";
+  document.body.appendChild(heart);
+
+  setTimeout(() => heart.remove(), 4000);
+}
+
+setInterval(createHeart, 300);
+
+const style = document.createElement("style");
+style.innerHTML = `
+@keyframes fall {
+  to {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}`;
+document.head.appendChild(style);
+function surprise(){
+  document.getElementById("popup").style.display = "flex";
+}
+
+function closePopup(){
+  document.getElementById("popup").style.display = "none";
+}
+
+</script>
+
+<!-- Popup -->
+<div id="popup" class="popup">
+  <div class="popup-box">
+    <h2>شنو سحبلك ايكون هههههه</h2>
+    <p>    ❤️ ضاهر طاهر و مخفي العاهر</p>
+    <button onclick="closePopup()">سدّ</button>
+  </div>
+</div>
+
+
+
 
 </body>
 </html>
