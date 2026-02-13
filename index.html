@@ -14,6 +14,35 @@ body {
   color: white;
 }
 
+/* ===== شاشة الباسورد ===== */
+#lockScreen{
+  position: fixed;
+  inset: 0;
+  background: #111;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  z-index:999;
+}
+
+#lockScreen input{
+  padding:10px;
+  font-size:18px;
+  border-radius:10px;
+  border:none;
+  margin-top:10px;
+}
+
+#lockScreen button{
+  padding:10px 20px;
+  margin-top:10px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+/* ===== موقعك الأصلي (ما تبدل والو) ===== */
 .container {
   margin-top: 100px;
 }
@@ -59,8 +88,15 @@ img {
 
 <body>
 
+<!-- ===== شاشة الباسورد ===== -->
+<div id="lockScreen">
+  <h2>Enter Password ❤️</h2>
+  <input type="password" id="pass" placeholder="Password">
+  <button onclick="checkPass()">Enter</button>
+</div>
+
 <!-- الصفحة الأولى -->
-<div class="container" id="firstPage">
+<div class="container" id="firstPage" style="display:none;">
   <h1>واش تبغي تكوني زوجة سيّد البحار والمحيطات السبع، وسلطان السلاطين ،<br> وتكوني تحت حماية طارق إلى الأبد ؟❤️</h1>
   <br>
   <img src="tarik.JPG" alt="صورتك هنا">
@@ -75,25 +111,18 @@ img {
 
   <h1> 😌❤️ كنت عارفك اتقولي اه </h1>
 
-  <!-- حط هنا GIF ديال بوسة -->
   <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" alt="kiss gif">
 
-  <!-- حط هنا الصورة ديالها -->
   <br>
   <img src="us.jpeg" alt="صورتك هنا">
 
-  <!-- هنا كتب كلامك عليها -->
   <p style="margin-top:20px;">
     <h3> سفف تزوجنا نتي دب تحت الحماية ديالي<br></h3>
-   
     <br>
     ❤️ ضاهر طاهر و مخفي العاهر
-
-    
   </p>
 
-
-    <br>
+  <br>
   <button onclick="goToLovePage()" style="margin-top:30px; font-size:20px;">
     كنبغيك ❤️
   </button>
@@ -101,6 +130,20 @@ img {
 </div>
 
 <script>
+
+/* ===== باسورد ===== */
+function checkPass(){
+  var password = "Yasmina+tarik=love"; // ← بدل هاد الكود بالباسورد لي بغيتي
+
+  if(document.getElementById("pass").value === password){
+    document.getElementById("lockScreen").style.display = "none";
+    document.getElementById("firstPage").style.display = "block";
+  }else{
+    alert("Wrong password ❌");
+  }
+}
+
+/* ===== كودك الأصلي بلا تغيير ===== */
 
 let yesBtn = document.getElementById("yesBtn");
 let noBtn = document.getElementById("noBtn");
@@ -118,10 +161,10 @@ yesBtn.addEventListener("click", function() {
   firstPage.style.display = "none";
   secondPage.style.display = "block";
 });
+
 function goToLovePage(){
   window.location.href = "love.html";
 }
-
 
 </script>
 
