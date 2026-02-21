@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>لحظاتنا الجميلة ❤️</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(145deg, #0B1C2F 0%, #1A2F4A 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  position: relative;
+}
+
+/* خلفية بنجوم خفيفة */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,0.3), rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.3), rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 80px 120px, rgba(255,255,255,0.3), rgba(0,0,0,0)),
+    radial-gradient(2px 2px at 160px 50px, rgba(255,255,255,0.3), rgba(0,0,0,0));
+  background-size: 200px 200px;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* الكاتر الرئيسي */
+.catel {
+  max-width: 1000px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 40px;
+  padding: 30px;
+  box-shadow: 
+    0 25px 50px -10px rgba(0, 0, 0, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+/* خطوط زخرفية */
+.catel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #4A90E2, #FFD700, #4A90E2, transparent);
+}
+
+/* كل صف */
+.row {
+  margin-bottom: 40px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 30px;
+  padding: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: 0.3s;
+}
+
+.row:hover {
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateY(-2px);
+}
+
+/* عنوان القسم */
+.section-title {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #4A90E2;
+  font-size: 1.3em;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: relative;
+  display: inline-block;
+  padding: 0 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.section-title::before,
+.section-title::after {
+  content: '✦';
+  color: #FFD700;
+  margin: 0 10px;
+  font-size: 1.2em;
+}
+
+/* القسم العلوي - صورة + نص */
+.top-section {
+  display: flex;
+  gap: 25px;
+  margin-bottom: 25px;
+}
+
+/* حاوية الصورة */
+.image-box {
+  flex: 0 0 280px;
+  position: relative;
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(74, 144, 226, 0.3);
+}
+
+.image-box img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  display: block;
+  transition: 0.5s;
+}
+
+.image-box:hover img {
+  transform: scale(1.1);
+}
+
+.image-box::after {
+  content: '❤️';
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  background: #4A90E2;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.image-box:hover::after {
+  opacity: 1;
+}
+
+/* حاوية النص */
+.text-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 25px;
+  padding: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  position: relative;
+}
+
+/* النص العلوي */
+.text-top {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px dashed rgba(74, 144, 226, 0.3);
+}
+
+.text-top p {
+  color: #FFD700;
+  font-size: 1.8em;
+  font-weight: bold;
+  line-height: 1.4;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+
+.text-top small {
+  color: #4A90E2;
+  font-size: 1em;
+  display: block;
+  margin-top: 5px;
+  letter-spacing: 1px;
+}
+
+/* النص السفلي */
+.text-bottom p {
+  color: white;
+  font-size: 1.5em;
+  line-height: 1.4;
+  font-weight: 300;
+  text-shadow: 0 2px 3px rgba(0,0,0,0.3);
+}
+
+.text-bottom span {
+  color: #4A90E2;
+  font-weight: bold;
+}
+
+/* القسم السفلي - فيديو */
+.video-container {
+  width: 100%;
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(74, 144, 226, 0.3);
+  position: relative;
+  margin-top: 20px;
+}
+
+.video-container video {
+  width: 100%;
+  height: 450px;
+  object-fit: cover;
+  display: block;
+}
+
+.video-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 65%, rgba(74, 144, 226, 0.2));
+  pointer-events: none;
+}
+
+.video-container::after {
+  content: '▶️';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  background: rgba(74, 144, 226, 0.8);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  opacity: 0;
+  transition: 0.3s;
+  border: 2px solid white;
+  z-index: 10;
+}
+
+.video-container:hover::after {
+  opacity: 1;
+}
+
+/* زخارف جانبية */
+.side-decoration {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 100px;
+  background: linear-gradient(to bottom, #4A90E2, #FFD700);
+  border-radius: 15px;
+  opacity: 0.2;
+}
+
+.side-decoration.left {
+  left: -10px;
+}
+
+.side-decoration.right {
+  right: -10px;
+}
+
+/* فاصل بين الأقسام */
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin: 30px 0;
+  color: #4A90E2;
+}
+
+.divider-line {
+  height: 2px;
+  width: 100px;
+  background: linear-gradient(90deg, transparent, #4A90E2, #FFD700, #4A90E2, transparent);
+}
+
+.divider-heart {
+  font-size: 24px;
+  color: #FFD700;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* النص السفلي الصغير */
+.footer-note {
+  text-align: center;
+  margin-top: 30px;
+  color: rgba(255,255,255,0.5);
+  font-size: 1em;
+  padding: 15px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* تصميم متجاوب */
+@media (max-width: 768px) {
+  .top-section {
+    flex-direction: column;
+  }
+  
+  .image-box {
+    flex: 0 0 auto;
+  }
+  
+  .text-top p {
+    font-size: 1.4em;
+  }
+  
+  .text-bottom p {
+    font-size: 1.2em;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- زخارف جانبية -->
+<div class="side-decoration left"></div>
+<div class="side-decoration right"></div>
+
+<div class="catel">
+
+  <!-- العنوان الرئيسي -->
+  <div class="section-title">❤️ لحظاتنا الجميلة ❤️</div>
+
+  <!-- ===== الصف الأول ===== -->
+  <div class="row">
+    <!-- القسم العلوي: صورة + نص -->
+    <div class="top-section">
+      <!-- الصورة الأولى -->
+      <div class="image-box">
+        <img src="7na-ta3bir.JPG" alt="صورتنا الأولى">
+      </div>
+      
+      <!-- النصوص -->
+      <div class="text-box">
+        <!-- النص العلوي (سطرين) -->
+        <div class="text-top">
+          <p>✨ أول يوم التقينا<br>كان أجمل يوم ✨</p>
+          <small>❤️ yasmina l4zala ❤️</small>
+        </div>
+        
+        <!-- النص السفلي (سطرين) -->
+        <div class="text-bottom">
+          <p>💙 من يومها وقلبي<br>ماعادش <span>يعرف غيرك</span> 💙</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- القسم السفلي: الفيديو الأول -->
+    <div class="video-container" onclick="playVideo(this)">
+      <video id="video1">
+        <source src="7na-ta3bir.mov" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- فاصل رومانسي -->
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-heart">💕</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- ===== الصف الثاني ===== -->
+  <div class="row">
+    <!-- القسم العلوي: صورة + نص -->
+    <div class="top-section">
+      <!-- الصورة الثانية -->
+      <div class="image-box">
+        <img src="7na-ta3bir2.JPG" alt="صورتنا الثانية">
+      </div>
+      
+      <!-- النصوص -->
+      <div class="text-box">
+        <!-- النص العلوي (سطرين) -->
+        <div class="text-top">
+          <p>🌙 أجمل الذكريات<br>كانت معاك 🌙</p>
+          <small>❤️ أيام لا تنسى ❤️</small>
+        </div>
+        
+        <!-- النص السفلي (سطرين) -->
+        <div class="text-bottom">
+          <p>💫 ضحكتك هي الدنيا<br>و<span>سعادتي</span> في قربك 💫</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- القسم السفلي: الفيديو الثاني -->
+    <div class="video-container" onclick="playVideo(this)">
+      <video id="video2">
+        <source src="7na-ta3bir2.mov" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- فاصل رومانسي -->
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-heart">💖</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <!-- ===== الصف الثالث ===== (اختياري، تقدر تزيد كتر) -->
+  <div class="row">
+    <!-- القسم العلوي: صورة + نص -->
+    <div class="top-section">
+      <!-- الصورة الثالثة -->
+      <div class="image-box">
+        <img src="7na-ta3bir3.jpg" alt="صورتنا الثالثة">
+      </div>
+      
+      <!-- النصوص -->
+      <div class="text-box">
+        <!-- النص العلوي (سطرين) -->
+        <div class="text-top">
+          <p>🌟 معاك الدنيا حلوة<br>حتى لو كانت صعيبة 🌟</p>
+          <small>❤️ أنت الأمان ❤️</small>
+        </div>
+        
+        <!-- النص السفلي (سطرين) -->
+        <div class="text-bottom">
+          <p>🤍 أحبك اليوم أكثر<br>من <span>الأمس وأقل من الغد</span> 🤍</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- القسم السفلي: الفيديو الثالث -->
+    <div class="video-container" onclick="playVideo(this)">
+      <video id="video3">
+        <source src="uss.mov" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <!-- النص الأخير -->
+  <div class="footer-note">
+    ✨ كل لحظة معاك كنز ما يتعوضش... والعمر كله ما يكفيني عشان أحبك ✨
+  </div>
+
+</div>
+
+<script>
+function playVideo(container) {
+  const video = container.querySelector('video');
+  
+  // إيقاف جميع الفيديوهات الأخرى
+  const allVideos = document.querySelectorAll('video');
+  allVideos.forEach(v => {
+    if (v !== video) {
+      v.pause();
+    }
+  });
+  
+  // تشغيل أو إيقاف الفيديو المطلوب
+  if (video.paused) {
+    video.play();
+    container.style.borderColor = '#FFD700';
+  } else {
+    video.pause();
+    container.style.borderColor = '#4A90E2';
+  }
+}
+
+// إيقاف الفيديو إذا نقرت خارج الفيديو
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.video-container')) {
+    const videos = document.querySelectorAll('video');
+    videos.forEach(video => {
+      video.pause();
+    });
+    
+    // إعادة لون الحدود للأصلي
+    document.querySelectorAll('.video-container').forEach(container => {
+      container.style.borderColor = '#4A90E2';
+    });
+  }
+});
+</script>
+
+</body>
+</html>
