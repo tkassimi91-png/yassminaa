@@ -45,17 +45,20 @@ video.bg {
 
 .buttons {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 5px;
+  grid-template-columns: repeat(4, 1fr); /* كان 6 → نقصنا باش يكبرو */
+  gap: 10px; /* زيدنا المسافة */
   margin-top: 10px;
+  
 }
 
 button {
-  padding: 10px;
+  padding: 18px;       /* كان 10px → كبرناه */
+  font-size: 18px;     /* باش يبان واضح */
   border: none;
-  border-radius: 8px;
+  border-radius: 12px; /* شوية rounded */
   cursor: pointer;
 }
+
 
 .letter { background: #444; color: white; }
 .operator { background: orange; }
@@ -90,6 +93,17 @@ button {
   background: pink;
   color: white;
   cursor: pointer;
+}
+@media (max-width: 500px) {
+  .calculator {
+    width: 90%;   /* ياخذ العرض كامل */
+    padding: 15px;
+  }
+
+  button {
+    padding: 20px;
+    font-size: 20px;
+  }
 }
 </style>
 
