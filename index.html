@@ -3,185 +3,107 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Love Calculator</title>
+<title>Question</title>
 
 <style>
 body {
   margin: 0;
-  font-family: Arial;
-  overflow: hidden;
+  background: linear-gradient(black, purple);
   color: white;
+  font-family: Arial;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
-/* Background Video */
-video.bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;
+/* Box */
+.container {
+  text-align: center;
 }
 
-/* Calculator */
-.calculator {
-  position: relative;
-  z-index: 1;
-  background: rgba(0,0,0,0.7);
-  padding: 20px;
-  border-radius: 20px;
-  width: 360px;
-  margin: 50px auto;
-}
-
-.display {
-  background: black;
+input {
   padding: 10px;
   border-radius: 10px;
-  min-height: 40px;
-  text-align: right;
-}
-
-.buttons {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 5px;
+  border: none;
   margin-top: 10px;
 }
 
 button {
-  padding: 10px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
+  margin-top: 10px;
   cursor: pointer;
 }
 
-.letter { background: #444; color: white; }
-.operator { background: orange; }
-.equal { background: green; }
-.clear { background: red; }
-.special { background: purple; color: white; }
-
-/* Card popup */
+/* Card result */
 .card {
   display: none;
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
   background: rgba(0,0,0,0.9);
   padding: 20px;
   border-radius: 20px;
-  text-align: center;
-  z-index: 2;
+  margin-top: 20px;
   animation: pop 0.5s ease;
 }
 
 @keyframes pop {
-  from { transform: translate(-50%, -50%) scale(0); }
-  to { transform: translate(-50%, -50%) scale(1); }
+  from { transform: scale(0); }
+  to { transform: scale(1); }
 }
 
-.card button {
-  margin-top: 15px;
-  padding: 10px 20px;
-  border-radius: 10px;
-  background: pink;
+.closeBtn {
+  background: red;
   color: white;
-  cursor: pointer;
 }
 </style>
 
 </head>
 <body>
 
-<!-- Background video -->
-<video class="bg" autoplay loop muted>
-  <source src="7na-love.mp4" type="video/mp4">
-</video>
+<div class="container">
+  <h1>🤔 1 + 1 = ?</h1>
 
-<div class="calculator">
-  <div id="display" class="display"></div>
+  <input type="text" id="answer" placeholder=" ktbi hna ljawab ">
+  <br>
+  <button onclick="check()">check</button>
 
-  <div class="buttons" id="buttons"></div>
-
-  <button class="equal" onclick="calculate()">=</button>
-  <button class="clear" onclick="clearDisplay()">C</button>
-</div>
-
-<!-- Card popup -->
-<div id="card" class="card">
-  <h2 id="msg">❤️ 7OB ❤️</h2>
-  <button onclick="goVideo()">🎬 Watch Video</button>
+  <div id="card" class="card">
+    <h2 id="msg"></h2>
+    <button class="closeBtn" onclick="goNext()">Close</button>
+  </div>
 </div>
 
 <script>
-let display = document.getElementById("display");
-let buttonsDiv = document.getElementById("buttons");
-let card = document.getElementById("card");
-let msg = document.getElementById("msg");
+let correct = false;
 
-// جميع الحروف + أرقام
-let chars = "0123456789".split("");
-chars.forEach(c => {
-  let btn = document.createElement("button");
-  btn.innerText = c;
-  btn.className = "letter";
-  btn.onclick = () => display.innerHTML += c;
-  buttonsDiv.appendChild(btn);
-});
+function check() {
+  let ans = document.getElementById("answer").value;
+  let card = document.getElementById("card");
+  let msg = document.getElementById("msg");
 
-// زر +
-let plusBtn = document.createElement("button");
-plusBtn.innerText = "+";
-plusBtn.className = "operator";
-plusBtn.onclick = () => display.innerHTML += "+";
-buttonsDiv.appendChild(plusBtn);
+  card.style.display = "block";
 
-// أزرار خاصة TARIK و YASSMINE
-let tarikBtn = document.createElement("button");
-tarikBtn.innerText = "TARIK";
-tarikBtn.className = "special";
-tarikBtn.onclick = () => display.innerHTML += "TARIK";
-buttonsDiv.appendChild(tarikBtn);
-
-let yassmineBtn = document.createElement("button");
-yassmineBtn.innerText = "YASSMINE";
-yassmineBtn.className = "special";
-yassmineBtn.onclick = () => display.innerHTML += "YASSMINE";
-buttonsDiv.appendChild(yassmineBtn);
-
-function clearDisplay() {
-  display.innerHTML = "";
-  card.style.display = "none";
-}
-
-// Calculate
-function calculate() {
-  let input = display.innerHTML;
-
-  if (input.includes("*") || input.includes("-") || input.includes("/")) {
-    alert("4ir + li khdama hhhh");
-    return;
-  }
-
-  if (input === "TARIK+YASSMINE") {
-    msg.innerHTML = "TARIK+YASSMINE = love hhhh";
-    card.style.display = "block";
-  } else if (input === "YASSMINE+TARIK"){
-    alert("ma7chmtich katseb9i smytki 9bel mni ");
-  }
-  else {
-    alert("la la sma7liya hadchi ma9ritoch hhhhh ");
+  if (ans == "2") {
+    msg.innerHTML = "❌ لاااا 😂 1+1 = 69 و شي وليد";
+    correct = true;
+  } else {
+    msg.innerHTML = "wach 9arya f z7am 1+1 ma3arfach chhal !!";
+    correct = false;
   }
 }
 
-// Go video
-function goVideo() {
-  window.location.href = "video.html"; // صفحة الفيديو
+function goNext() {
+  let card = document.getElementById("card");
+
+  if (correct) {
+    window.location.href = "index.html";
+  } else {
+    card.style.display = "none";
+  }
 }
 </script>
 
 </body>
 </html>
+
