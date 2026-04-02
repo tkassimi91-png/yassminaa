@@ -1,0 +1,438 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Video Background */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    overflow: hidden;
+}
+
+.video-background video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+/* Container */
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.main-title {
+    color: white;
+    font-size: 3rem;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 50px;
+    text-align: center;
+    animation: fadeInDown 1s ease;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Buttons Grid */
+.buttons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
+    max-width: 800px;
+    width: 100%;
+    animation: fadeInUp 1s ease;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.love-btn {
+    background: linear-gradient(135deg, #ff6b6b, #c92a6b);
+    color: white;
+    border: none;
+    padding: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 60px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.love-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideIn 0.3s ease;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.3s;
+    z-index: 2;
+}
+
+.close:hover {
+    color: #c92a6b;
+}
+
+/* ========== FOR YOU MODAL WITH IMAGE BACKGROUND ========== */
+.foryou-modal-content {
+    background-image: url('images/romantic-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 0;
+    overflow: hidden;
+}
+
+.foryou-modal-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 0;
+}
+
+.foryou-modal-content .love-message {
+    position: relative;
+    z-index: 1;
+    padding: 40px 30px;
+    text-align: center;
+    background: transparent;
+}
+
+.foryou-modal-content .love-message h2 {
+    color: white;
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.foryou-modal-content .love-message p {
+    color: white;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    background: transparent;
+}
+
+.foryou-modal-content .heart-emoji {
+    background: transparent;
+    font-size: 2rem;
+    margin-top: 20px;
+}
+
+.foryou-modal-content .close {
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 15px;
+    right: 15px;
+}
+
+.foryou-modal-content .close:hover {
+    background: rgba(0, 0, 0, 0.8);
+    color: #ff6b6b;
+}
+
+/* ========== OTHER MODALS (WHITE BACKGROUND) ========== */
+.modal-content:not(.foryou-modal-content) {
+    background: white;
+}
+
+.quiz-modal h2 {
+    color: #c92a6b;
+    text-align: center;
+}
+
+.gallery-modal-content h2 {
+    color: #c92a6b;
+    text-align: center;
+}
+
+.surprise-content h2 {
+    color: #020202;
+    text-align: center;
+}
+
+/* Quiz Styles */
+.question {
+    margin-bottom: 25px;
+    padding: 15px;
+    background: #f9f9f9;
+    border-radius: 15px;
+}
+
+.question h3 {
+    color: #c92a6b;
+    margin-bottom: 15px;
+}
+
+.option {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.option:hover {
+    background: #ffebee;
+    border-color: #c92a6b;
+}
+
+.option.selected {
+    background: #c92a6b;
+    color: white;
+    border-color: #c92a6b;
+}
+
+.score-display {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #c92a6b;
+    margin-top: 20px;
+    padding: 10px;
+    background: #ffebee;
+    border-radius: 10px;
+}
+
+.submit-quiz {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 20px;
+    width: 100%;
+}
+
+/* Gallery */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.gallery-item:hover {
+    transform: scale(1.05);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.1);
+}
+
+.gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px;
+    font-size: 12px;
+    text-align: center;
+    transform: translateY(100%);
+    transition: transform 0.3s;
+}
+
+.gallery-item:hover .gallery-caption {
+    transform: translateY(0);
+}
+
+/* Image Detail Modal */
+.image-detail {
+    text-align: center;
+    background: white;
+}
+
+.image-detail img {
+    max-width: 100%;
+    max-height: 60vh;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.image-detail p {
+    color: #333;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Surprise */
+.surprise-box {
+    text-align: center;
+}
+
+.surprise-box p {
+    font-size: 1.2rem;
+    margin: 15px 0;
+    color: #090406;
+}
+
+.coupon-cards {
+    display: grid;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.coupon {
+    background: linear-gradient(135deg, #5244ef, #d8d0d3);
+    padding: 15px;
+    border-radius: 15px;
+    color: white;
+}
+
+.coupon h3 {
+    margin-bottom: 8px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .main-title {
+        font-size: 2rem;
+    }
+    
+    .buttons-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .modal-content {
+        margin: 15% auto;
+        width: 95%;
+        padding: 20px;
+    }
+    
+    .gallery-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+    
+    .foryou-modal-content .love-message p {
+        font-size: 0.95rem;
+    }
+    
+    .foryou-modal-content .love-message h2 {
+        font-size: 24px;
+    }
+}
