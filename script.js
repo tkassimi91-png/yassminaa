@@ -150,13 +150,13 @@ if (btnTest && testModal) {
 const galleryItems = [
     { image: 'images/foto1.jpg', caption: '3refti 3lach 4tit wejhki ? ', detail: 'لماذا أراكٍ على كل شيءٍ كأنَّكِ في الأرض كل البشر' },
     { image: './images/foto2.JPG', caption: 'had tswira jamila ', detail: ' كأنّكِ دربٌ بغير انتهاءٍ وأنّي خُلِقتُ لهذا السّفر' },
-    { image: 'images/foto3.jpg', caption: 't3ni9at lmla7 ' , detail: 'إذا كنتُ أهربُ منكِ إليكِ فقولي بربّكِ أينَ المفر؟ ' },
-    { image: 'images/foto4.jpg', caption: 'had t3ni9a wa3era ', detail: 'إنَّي لأَنْظُرُ فِي الوُجُودِ بِأَسْرِهِ لأَرَى الوُجُوهَ، فَلَا أَرَى إِلَّاكَ' },
-    { image: 'images/foto9.jpg', caption: 'ta hadi wa3era', detail: 'قَالُوا: وَيَخْلُقُ أَرْبَعِينَ مُشَابِهًا مِن أَربَعِينَكَ، لَا أُرِيدُ سِوَاكَ' },
-    { image: 'images/foto6.jpg', caption: 'hna 9oltili ....', detail: '3lach katle3 ydik lfo9 makat3refch tswer chof ldin mok tswira kif jat wa3era 🤌' },
-    { image: 'images/foto7.png', caption: 'hna 3ene9i 7sit ....', detail: '3en9i 7sit bih t3awej hhhhh chof ydi kif mzayer khayef la ti7i hhhh' },
-    { image: 'images/fot8.jpg', caption: 'اني عشقتك واتخذت قراري ', detail: 'اني عشقتك واتخذت قراري    فلمن أقدم يا ترى أعذاري<br> لا سلطة في الحب تعلو سلطتي الرأي رأيي والخيار خياري<br> هذي احاسيسي فلا تتدخلى أرجوك بين البحر والبحار' },
-    { image: 'images/foto5.jpg', caption: 'hadchi li hna katbo ana ...', detail: 'lmohim hadchi anktebo ana wakha ana 3aref rasi na9es f ta3bir walakin .. <br> ana b4itki t3refi bli kandir mjhod bach tkoni fer7ana w hadi hiya lhaja li kan3ref ndir hiya nkteb l code <br> kan7awel n3ber bdikchi li kan3raf wli b4itki t3arefi howa ana kanb4iki bzaf mn nhar 3reftki w denya daheka f wejhi w kantmna lah yla9ina f we9t zwin w nkon ana wyaki dima dahkin w kantmena anaki tkoni mrta7a m3aya wakha had lmsafat kamlin walkin hadi 4ir we9t w kadoz w ana 3aref bli nti katwehchini bzaf w 7ta ana kantwahechek bzaf walkin li khasna n3refo b2 bli hadi 4ir we9ita w 4adi doz bhal kif ma dazo bzaf dyal l7wayj s3abin khasna nsbero m3a be3diyatna w nchalah nkono fchi mosta9bal ra2i3 ana wyaki ado d3winati <br> <br> kanb4iiiik ' }
+    { image: './images/foto3.JPG', caption: 't3ni9at lmla7 ' , detail: 'إذا كنتُ أهربُ منكِ إليكِ فقولي بربّكِ أينَ المفر؟ ' },
+    { image: './images/foto4.JPG', caption: 'had t3ni9a wa3era ', detail: 'إنَّي لأَنْظُرُ فِي الوُجُودِ بِأَسْرِهِ لأَرَى الوُجُوهَ، فَلَا أَرَى إِلَّاكَ' },
+    { image: './images/foto9.JPG', caption: 'ta hadi wa3era', detail: 'قَالُوا: وَيَخْلُقُ أَرْبَعِينَ مُشَابِهًا مِن أَربَعِينَكَ، لَا أُرِيدُ سِوَاكَ' },
+    { image: './images/foto6.JPG', caption: 'hna 9oltili ....', detail: '3lach katle3 ydik lfo9 makat3refch tswer chof ldin mok tswira kif jat wa3era 🤌' },
+    { image: './images/foto7.PNG', caption: 'hna 3ene9i 7sit ....', detail: '3en9i 7sit bih t3awej hhhhh chof ydi kif mzayer khayef la ti7i hhhh' },
+    { image: './images/fot8.JPG', caption: 'اني عشقتك واتخذت قراري ', detail: 'اني عشقتك واتخذت قراري    فلمن أقدم يا ترى أعذاري<br> لا سلطة في الحب تعلو سلطتي الرأي رأيي والخيار خياري<br> هذي احاسيسي فلا تتدخلى أرجوك بين البحر والبحار' },
+    { image: './images/foto5.JPG', caption: 'hadchi li hna katbo ana ...', detail: 'lmohim hadchi anktebo ana wakha ana 3aref rasi na9es f ta3bir walakin .. <br> ana b4itki t3refi bli kandir mjhod bach tkoni fer7ana w hadi hiya lhaja li kan3ref ndir hiya nkteb l code <br> kan7awel n3ber bdikchi li kan3raf wli b4itki t3arefi howa ana kanb4iki bzaf mn nhar 3reftki w denya daheka f wejhi w kantmna lah yla9ina f we9t zwin w nkon ana wyaki dima dahkin w kantmena anaki tkoni mrta7a m3aya wakha had lmsafat kamlin walkin hadi 4ir we9t w kadoz w ana 3aref bli nti katwehchini bzaf w 7ta ana kantwahechek bzaf walkin li khasna n3refo b2 bli hadi 4ir we9ita w 4adi doz bhal kif ma dazo bzaf dyal l7wayj s3abin khasna nsbero m3a be3diyatna w nchalah nkono fchi mosta9bal ra2i3 ana wyaki ado d3winati <br> <br> kanb4iiiik ' }
 ];
 
 function renderGallery() {
