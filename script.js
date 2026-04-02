@@ -149,7 +149,7 @@ if (btnTest && testModal) {
 // ==================== BUTTON 3: GALLERY ====================
 const galleryItems = [
     { image: 'images/foto1.jpg', caption: '3refti 3lach 4tit wejhki ? ', detail: 'لماذا أراكٍ على كل شيءٍ كأنَّكِ في الأرض كل البشر' },
-    { image: 'images/foto2.jpg', caption: 'had tswira jamila ', detail: ' كأنّكِ دربٌ بغير انتهاءٍ وأنّي خُلِقتُ لهذا السّفر' },
+    { image: './images/foto2.JPG', caption: 'had tswira jamila ', detail: ' كأنّكِ دربٌ بغير انتهاءٍ وأنّي خُلِقتُ لهذا السّفر' },
     { image: 'images/foto3.jpg', caption: 't3ni9at lmla7 ' , detail: 'إذا كنتُ أهربُ منكِ إليكِ فقولي بربّكِ أينَ المفر؟ ' },
     { image: 'images/foto4.jpg', caption: 'had t3ni9a wa3era ', detail: 'إنَّي لأَنْظُرُ فِي الوُجُودِ بِأَسْرِهِ لأَرَى الوُجُوهَ، فَلَا أَرَى إِلَّاكَ' },
     { image: 'images/foto9.jpg', caption: 'ta hadi wa3era', detail: 'قَالُوا: وَيَخْلُقُ أَرْبَعِينَ مُشَابِهًا مِن أَربَعِينَكَ، لَا أُرِيدُ سِوَاكَ' },
