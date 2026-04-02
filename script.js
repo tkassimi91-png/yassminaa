@@ -95,16 +95,16 @@ function submitQuiz() {
     
     if (correctCount === total) {
         message = 'raki naje7a tbarklah makayn maytsalk hhh';
-        imageUrl = 'images/5:5.jpg';
+        imageUrl = 'images/5_5.jpg';
     } else if (correctCount >= total - 1) {
         message = 'khaski traje3i chwiya layredi 3lik mathmlich 9raytek hhh';
-        imageUrl = 'images/5:5.jpg';
+        imageUrl = 'images/5_5.jpg';
     } else if (correctCount >= total - 2) {
         message = 'b9alki chwiya w tse9eti ';
-        imageUrl = 'images/5:5.jpg';
+        imageUrl = 'images/5_5.jpg';
     } else {
         message = 'ya wedi ya l9raya ya wedi ';
-        imageUrl = 'images/5:5.jpg';
+        imageUrl = 'images/5_5.jpg';
     }
     
     showResultModal(message, imageUrl, correctCount);
