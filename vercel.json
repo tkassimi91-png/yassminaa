@@ -1,7 +1,0 @@
-{
-  "routes": [
-    { "src": "/", "dest": "/index.html" },
-    { "src": "/main", "dest": "/main.html" },
-    { "src": "/main.html", "dest": "/main.html" }
-  ]
-}
