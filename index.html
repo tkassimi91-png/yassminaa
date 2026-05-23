@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Countdown to 6 June</title>
+  <title>Countdown to 6 June just for yassmine</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -242,7 +242,7 @@
   <div class="bg-petals" id="petals"></div>
 
   <div class="card">
-    <div class="label-top">Compte à rebours</div>
+    <div class="label-top">Compte à rebours pour hbibti Yassmine</div>
     <h1>Jusqu'au <em>6 Août 2026</em></h1>
     <div class="subtitle">6 août 2026 · Le jour tant attendu</div>
 
@@ -290,12 +290,12 @@
   // Let's define: kisses = (totalDays - daysLeft)
   // totalDays = total days between now (at load) and target.
 
-  const NOW_AT_LOAD = new Date();
-  NOW_AT_LOAD.setHours(0,0,0,0);
+  // START_DATE fixe = nhar li bdat fiha l page (ma tbdalch)
+  const START_DATE = new Date('2026-05-19T00:00:00');
   const TARGET_START = new Date(TARGET);
   TARGET_START.setHours(0,0,0,0);
 
-  const TOTAL_DAYS = Math.round((TARGET_START - NOW_AT_LOAD) / 86400000);
+  const TOTAL_DAYS = Math.round((TARGET_START - START_DATE) / 86400000);
 
   // ── PETALS ───────────────────────────────────────────────
   const petalsEl = document.getElementById('petals');
