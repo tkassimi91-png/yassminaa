@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Momentos</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--red:#E50914;--dark:#141414;}
+body{background:var(--dark);color:white;font-family:'Inter',sans-serif;overflow-x:hidden;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;gap:32px;padding:18px 52px;background:rgba(20,20,20,0.97);box-shadow:0 2px 20px rgba(0,0,0,0.5);}
+.logo{color:var(--red);font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:3px;text-decoration:none;}
+.nav-links{display:flex;gap:0;list-style:none;}
+.nav-links a{color:#ccc;text-decoration:none;font-size:13px;padding:8px 14px;border-radius:4px;transition:all 0.2s;}
+.nav-links a:hover{color:white;background:rgba(255,255,255,0.08);}
+.nav-links a.active{color:white;font-weight:600;}
+
+.content{padding:120px 52px 80px;}
+
+/* CONTADOR */
+.contador-section{text-align:center;padding:60px 0 80px;border-bottom:1px solid #222;margin-bottom:80px;}
+.contador-label{font-size:11px;letter-spacing:5px;color:var(--red);text-transform:uppercase;margin-bottom:24px;}
+.contador-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(80px,12vw,160px);line-height:1;color:white;letter-spacing:4px;}
+.contador-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:#888;margin-top:16px;}
+.contador-since{font-size:13px;color:#555;margin-top:12px;letter-spacing:2px;}
+
+/* GRID MOMENTOS */
+.grid-label{font-size:11px;letter-spacing:5px;color:var(--red);text-transform:uppercase;margin-bottom:36px;}
+.moments-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;}
+.moment-card{position:relative;border-radius:12px;overflow:hidden;background:#1a1a1a;cursor:default;}
+.moment-card-img{width:100%;height:220px;object-fit:cover;display:block;}
+.moment-card-img-ph{width:100%;height:220px;display:flex;align-items:center;justify-content:center;font-size:52px;background:linear-gradient(135deg,#1a0818,#3d1040);}
+.moment-card-body{padding:20px;}
+.moment-card-date{font-size:11px;letter-spacing:3px;color:var(--red);text-transform:uppercase;margin-bottom:8px;}
+.moment-card-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;margin-bottom:10px;}
+.moment-card-text{font-family:'Cormorant Garamond',serif;font-size:16px;line-height:1.75;color:#aaa;font-style:italic;font-weight:300;}
+
+@media(max-width:768px){
+  nav{padding:14px 20px;}.nav-links{display:none;}
+  .content{padding:90px 20px 60px;}
+  .contador-title{font-size:80px;}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="index.html">NETFLIX</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="nosotros.html">Nuestra Historia</a></li>
+    <li><a href="momentos.html" class="active">Momentos</a></li>
+    <li><a href="carta.html">Carta Para Ti</a></li>
+    <li><a href="galeria.html">Galería</a></li>
+  </ul>
+</nav>
+
+<div class="content">
+
+  <!-- CONTADOR DE DÍAS -->
+  <div class="contador-section">
+    <div class="contador-label">Llevamos juntos</div>
+    <div class="contador-title" id="dias">0</div>
+    <div class="contador-sub">días, horas, minutos y segundos</div>
+    <div id="tiempo-exacto" style="font-size:18px;color:#666;margin-top:16px;font-family:'Cormorant Garamond',serif;font-style:italic;"></div>
+    <!-- CAMBIA LA FECHA DE INICIO — formato: AÑO, MES-1, DIA (enero=0, febrero=1...) -->
+    <div class="contador-since" id="desde-label"></div>
+  </div>
+
+  <!-- TARJETAS DE MOMENTOS -->
+  <div class="grid-label">Momentos que no olvidamos</div>
+  <div class="moments-grid">
+
+    <!-- MOMENT 1 — cambia fecha, título, texto e imagen -->
+    <div class="moment-card">
+      <img class="moment-card-img" src="momento1.jpg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="moment-card-img-ph" style="display:none;">🌅</div>
+      <div class="moment-card-body">
+        <div class="moment-card-date">Enero 2023</div>
+        <div class="moment-card-title">El Primer Abrazo</div>
+        <p class="moment-card-text">Escribe aquí qué pasó en este momento. Por qué lo recuerdas, cómo te sentiste, qué significó para ti.</p>
+      </div>
+    </div>
+
+    <div class="moment-card">
+      <img class="moment-card-img" src="momento2.jpg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="moment-card-img-ph" style="display:none;">🌊</div>
+      <div class="moment-card-body">
+        <div class="moment-card-date">Marzo 2023</div>
+        <div class="moment-card-title">La Primera Cita</div>
+        <p class="moment-card-text">Ese día que lo cambia todo. El nerviosismo, la ilusión, la forma en que se convirtió en el inicio de algo precioso.</p>
+      </div>
+    </div>
+
+    <div class="moment-card">
+      <img class="moment-card-img" src="momento3.jpg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="moment-card-img-ph" style="display:none;">🏔️</div>
+      <div class="moment-card-body">
+        <div class="moment-card-date">Verano 2023</div>
+        <div class="moment-card-title">Primer Viaje Juntos</div>
+        <p class="moment-card-text">Viajar contigo es la mejor manera de conocerte de verdad. Sin el filtro del día a día, solo nosotros y el mundo.</p>
+      </div>
+    </div>
+
+    <div class="moment-card">
+      <img class="moment-card-img" src="momento4.jpg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="moment-card-img-ph" style="display:none;">🎂</div>
+      <div class="moment-card-body">
+        <div class="moment-card-date">Tu cumpleaños</div>
+        <div class="moment-card-title">Tu Día Especial</div>
+        <p class="moment-card-text">Celebrar tu cumpleaños contigo es un privilegio. Que siempre pueda estar ahí para ver cómo sonríes ese día.</p>
+      </div>
+    </div>
+
+    <div class="moment-card">
+      <img class="moment-card-img" src="momento5.jpg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="moment-card-img-ph" style="display:none;">🌃</div>
+      <div class="moment-card-body">
+        <div class="moment-card-date">Una noche cualquiera</div>
+        <div class="moment-card-title">Noche de Película</div>
+        <p class="moment-card-text">A veces los mejores momentos no son los planeados. Una noche en casa, tú, yo, y una película que ninguno acabó viendo.</p>
+      </div>
+    </div>
+
+    <div class="moment-card">
+      <img class="moment-card-img" src="momento6.jpg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="moment-card-img-ph" style="display:none;">✨</div>
+      <div class="moment-card-body">
+        <div class="moment-card-date">Siempre</div>
+        <div class="moment-card-title">Cada Día Contigo</div>
+        <p class="moment-card-text">No hace falta un momento especial. Cada día ordinario contigo ya es extraordinario de por sí.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer style="text-align:center;padding:40px 52px;color:#444;font-size:12px;border-top:1px solid #222;line-height:2;font-family:'Inter',sans-serif;">
+  <div>NETFLIX · Una producción original de amor</div>
+  <div style="margin-top:8px;">
+    <a href="index.html" style="color:#777;text-decoration:none;">Inicio</a> · 
+    <a href="nosotros.html" style="color:#777;text-decoration:none;">Nuestra Historia</a> · 
+    <a href="carta.html" style="color:#777;text-decoration:none;">Carta Para Ti</a> · 
+    <a href="galeria.html" style="color:#777;text-decoration:none;">Galería</a>
+  </div>
+</footer>
+
+<script>
+// ============================================================
+// CAMBIA ESTA FECHA por vuestra fecha de inicio
+// Formato: new Date(AÑO, MES, DIA)  — enero=0, dic=11
+// ============================================================
+const fechaInicio = new Date(2023, 0, 15); // ejemplo: 15 enero 2023
+
+function actualizar(){
+  const ahora = new Date();
+  const diff = ahora - fechaInicio;
+  const dias = Math.floor(diff / (1000*60*60*24));
+  const horas = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+  const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
+  const segs = Math.floor((diff % (1000*60)) / 1000);
+
+  document.getElementById('dias').textContent = dias.toLocaleString();
+  document.getElementById('tiempo-exacto').textContent =
+    `${horas}h ${mins}m ${segs}s más`;
+  document.getElementById('desde-label').textContent =
+    'Desde el ' + fechaInicio.toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});
+}
+actualizar();
+setInterval(actualizar, 1000);
+</script>
+</body>
+</html>
