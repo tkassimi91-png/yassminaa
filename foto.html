@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Constelación de Razones</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #c9a96e;
+    --star-white: #f0eaff;
+    --nebula-3: #06020f;
+    --text-bright: #f5f0ff;
+    --text-dim: rgba(245,240,255,0.55);
+  }
+
+  html, body {
+    width: 100%; min-height: 100vh;
+    background: var(--nebula-3);
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    color: var(--text-bright);
+    overflow-x: hidden;
+  }
+
+  #sky { position: fixed; inset: 0; z-index: 0; }
+
+  header {
+    position: relative; z-index: 10;
+    text-align: center;
+    padding: 60px 20px 20px;
+    pointer-events: none;
+  }
+  header .subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(10px, 1.8vw, 13px);
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: fadeUp 1.2s 0.3s forwards;
+  }
+  header h1 {
+    font-size: clamp(36px, 7vw, 72px);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: 0.04em;
+    opacity: 0;
+    animation: fadeUp 1.2s 0.6s forwards;
+  }
+  header h1 em { font-style: italic; color: var(--gold); }
+  header .intro {
+    font-size: clamp(14px, 2vw, 17px);
+    font-style: italic;
+    color: var(--text-dim);
+    margin-top: 14px;
+    opacity: 0;
+    animation: fadeUp 1.2s 0.9s forwards;
+  }
+
+  #constellation-wrap {
+    position: relative; z-index: 10;
+    width: 100%; max-width: 960px;
+    margin: 40px auto 0;
+    padding: 0 20px;
+  }
+  #constellation-svg {
+    width: 100%; height: auto; display: block;
+    filter: drop-shadow(0 0 18px rgba(201,169,110,0.08));
+  }
+
+  .star-group { cursor: pointer; }
+  .star-glow { fill: var(--gold); opacity: 0; transition: opacity 0.3s; }
+  .star-core { fill: var(--star-white); transition: fill 0.3s; }
+  .star-group:hover .star-glow { opacity: 1; }
+  .star-group:hover .star-core { fill: var(--gold); }
+  .star-group.visited .star-core { fill: var(--gold); opacity: 0.85; }
+  /* stars with photo get a distinct color hint */
+  .star-group.has-photo .star-core { fill: #e8c8ff; }
+  .star-group.has-photo.visited .star-core { fill: #c97fe8; }
+  .star-label {
+    fill: rgba(245,240,255,0.45);
+    font-family: 'Cinzel', serif;
+    font-size: 8px;
+    letter-spacing: 0.12em;
+    pointer-events: none;
+    transition: fill 0.3s;
+  }
+  .star-group:hover .star-label,
+  .star-group.visited .star-label { fill: var(--gold); }
+  .constellation-line {
+    stroke: rgba(201,169,110,0.18);
+    stroke-width: 0.8;
+    stroke-dasharray: 4 4;
+    fill: none;
+    pointer-events: none;
+  }
+
+  /* ── MODAL ── */
+  #modal-backdrop {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(6,2,15,0.85);
+    backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.4s;
+    padding: 20px;
+  }
+  #modal-backdrop.open { opacity: 1; pointer-events: all; }
+  #modal {
+    background: linear-gradient(145deg, #160b2e, #0d0520);
+    border: 0.5px solid rgba(201,169,110,0.35);
+    border-radius: 4px;
+    padding: 40px 44px;
+    max-width: 500px; width: 100%;
+    text-align: center;
+    transform: scale(0.92) translateY(12px);
+    transition: transform 0.4s;
+    position: relative;
+    box-shadow: 0 0 60px rgba(201,169,110,0.08);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  #modal-backdrop.open #modal { transform: scale(1) translateY(0); }
+
+  #modal-num {
+    font-family: 'Cinzel', serif;
+    font-size: 11px; letter-spacing: 0.3em;
+    color: var(--gold); margin-bottom: 10px;
+  }
+  #modal-name {
+    font-family: 'Cinzel', serif;
+    font-size: 13px; letter-spacing: 0.2em;
+    color: rgba(201,169,110,0.6);
+    text-transform: uppercase; margin-bottom: 20px;
+  }
+  #modal-divider {
+    width: 40px; height: 1px;
+    background: var(--gold); opacity: 0.4;
+    margin: 0 auto 24px;
+  }
+
+  /* Photo area */
+  #modal-photo-wrap {
+    display: none;
+    margin-bottom: 22px;
+  }
+  #modal-photo-wrap.visible { display: block; }
+  #modal-photo {
+    width: 100%; max-height: 280px;
+    object-fit: cover;
+    border-radius: 3px;
+    border: 0.5px solid rgba(201,169,110,0.25);
+    display: block;
+  }
+
+  #modal-text {
+    font-size: clamp(17px, 2.8vw, 22px);
+    font-weight: 300; font-style: italic;
+    line-height: 1.65; color: var(--text-bright);
+    letter-spacing: 0.01em;
+  }
+  #modal-close {
+    position: absolute; top: 16px; right: 20px;
+    background: none; border: none; cursor: pointer;
+    color: rgba(201,169,110,0.5);
+    font-size: 22px; line-height: 1;
+    transition: color 0.2s;
+    font-family: 'Cormorant Garamond', serif;
+  }
+  #modal-close:hover { color: var(--gold); }
+
+  #counter {
+    position: relative; z-index: 10;
+    text-align: center; padding: 50px 20px 30px;
+    opacity: 0; animation: fadeUp 1.2s 1.4s forwards;
+  }
+  #counter .num {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(28px, 5vw, 48px);
+    color: var(--gold); letter-spacing: 0.06em;
+  }
+  #counter .label {
+    font-size: clamp(12px, 2vw, 15px);
+    font-style: italic; color: var(--text-dim); margin-top: 6px;
+  }
+  footer {
+    position: relative; z-index: 10;
+    text-align: center; padding: 30px 20px 60px;
+    font-style: italic; font-size: clamp(13px, 2vw, 16px);
+    color: rgba(245,240,255,0.3);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.9; }
+    50%       { opacity: 0.3; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="sky"></canvas>
+
+<header>
+  <p class="subtitle">Para ti, desde aquí hasta allí</p>
+  <h1>Constelación de<br><em>Razones</em></h1>
+  <p class="intro">Cada estrella guarda una razón por la que eres mi universo.<br>Toca cualquiera para descubrirla.</p>
+</header>
+
+<div id="constellation-wrap">
+  <svg id="constellation-svg" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg"></svg>
+</div>
+
+<div id="counter">
+  <p class="num"><span id="visited-count">0</span> / <span id="total-count">0</span></p>
+  <p class="label">estrellas descubiertas</p>
+</div>
+
+<footer>Hecho con amor, desde la distancia &nbsp;✦</footer>
+
+<div id="modal-backdrop">
+  <div id="modal">
+    <button id="modal-close" aria-label="Cerrar">×</button>
+    <p id="modal-num"></p>
+    <p id="modal-name"></p>
+    <div id="modal-divider"></div>
+    <div id="modal-photo-wrap">
+      <img id="modal-photo" src="" alt="Foto especial" />
+    </div>
+    <p id="modal-text"></p>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+//  ✦  EDITA AQUÍ  ✦
+// ══════════════════════════════════════════════════════════════
+const CONFIG = {
+  nombreNovia: "Mi amor",   // ← pon su nombre aquí
+  nombreTuyo:  "Yo",        // ← pon tu nombre aquí
+
+  razones: [
+    {
+      nombre: "La Risa",
+      texto: "Porque tu risa es lo primero que pienso cuando me levanto por las mañanas.",
+      // ── SIN FOTO ── (deja foto: null)
+      foto: null
+    },
+    {
+      nombre: "La Fuerza",
+      texto: "Porque eres la persona más valiente que conozco, aunque tú no te lo creas.",
+      foto: null
+    },
+    {
+      nombre: "El Detalle",
+      texto: "Porque te acuerdas de cosas que yo ni sé que te conté.",
+      foto: null
+    },
+    {
+      nombre: "La Calma",
+      texto: "Porque contigo, incluso el silencio en una llamada se siente como hogar.",
+      foto: null
+    },
+    {
+      nombre: "La Ternura",
+      texto: "Porque cuando te preocupas por alguien, lo haces con todo tu corazón.",
+      foto: null
+    },
+    {
+      nombre: "El Humor",
+      texto: "Porque me haces reír en los momentos más inesperados y siempre en el más necesario.",
+      foto: null
+    },
+    {
+      nombre: "La Mirada",
+      texto: "Porque incluso por cámara, tus ojos dicen más que mil mensajes.",
+      foto: null
+    },
+    {
+      nombre: "La Paciencia",
+      texto: "Porque aguantas mis tonterías con una gracia que no merece nadie.",
+      foto: null
+    },
+    // ── ESTRELLAS CON FOTO ── Las 6 siguientes tienen foto
+    // Pon la ruta o nombre de tu foto entre las comillas.
+    // Si el archivo está en la misma carpeta que este HTML, solo pon el nombre: "foto1.jpg"
+    // Si está en una subcarpeta: "fotos/foto1.jpg"
+    {
+      nombre: "El Sueño",
+      texto: "Porque eres el plan más bonito que tengo para el futuro.",
+      foto: "foto1.jpg"   // ← FOTO 1: cambia por tu archivo
+    },
+    {
+      nombre: "La Magia",
+      texto: "Porque no sé cómo lo haces, pero consigues que la distancia duela menos.",
+      foto: "foto2.jpg"   // ← FOTO 2: cambia por tu archivo
+    },
+    {
+      nombre: "El Orgullo",
+      texto: "Porque cada vez que hablas de lo que amas, brillas de una forma que me deja sin palabras.",
+      foto: "foto3.jpg"   // ← FOTO 3: cambia por tu archivo
+    },
+    {
+      nombre: "La Presencia",
+      texto: "Porque aunque no estés aquí, estás en todo lo que hago cada día.",
+      foto: "foto4.jpg"   // ← FOTO 4: cambia por tu archivo
+    },
+    {
+      nombre: "Lo Nuestro",
+      texto: "Porque construimos algo real entre dos ciudades, y eso es extraordinario.",
+      foto: "foto5.jpg"   // ← FOTO 5: cambia por tu archivo
+    },
+    {
+      nombre: "El Todo",
+      texto: "Porque si te tengo a ti, tengo suficiente.",
+      foto: "foto6.jpg"   // ← FOTO 6: cambia por tu archivo
+    },
+  ]
+};
+// ══════════════════════════════════════════════════════════════
+
+// ── Background starfield ──
+const canvas = document.getElementById('sky');
+const ctx = canvas.getContext('2d');
+let W, H, stars = [];
+
+function resizeCanvas() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = document.body.scrollHeight;
+  buildStars();
+}
+function buildStars() {
+  stars = [];
+  const n = Math.floor((W * H) / 3000);
+  for (let i = 0; i < n; i++) {
+    stars.push({
+      x: Math.random() * W, y: Math.random() * H,
+      r: Math.random() * 1.2 + 0.2,
+      alpha: Math.random() * 0.6 + 0.15,
+      speed: Math.random() * 0.015 + 0.005,
+      phase: Math.random() * Math.PI * 2
+    });
+  }
+}
+let t = 0;
+function drawBg() {
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#06020f';
+  ctx.fillRect(0, 0, W, H);
+  const blobs = [
+    { x: W*0.2, y: H*0.25, r: W*0.3, c: 'rgba(80,20,120,0.06)' },
+    { x: W*0.75, y: H*0.6, r: W*0.28, c: 'rgba(40,10,90,0.07)' },
+    { x: W*0.5,  y: H*0.1, r: W*0.2,  c: 'rgba(100,30,60,0.05)' },
+  ];
+  blobs.forEach(b => {
+    const g = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
+    g.addColorStop(0, b.c); g.addColorStop(1, 'transparent');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  });
+  t += 0.008;
+  stars.forEach(s => {
+    const a = s.alpha * (0.6 + 0.4 * Math.sin(t * s.speed * 80 + s.phase));
+    ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(240,235,255,${a})`; ctx.fill();
+  });
+  requestAnimationFrame(drawBg);
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas(); drawBg();
+
+// ── Build constellation SVG ──
+const svg = document.getElementById('constellation-svg');
+const NS = 'http://www.w3.org/2000/svg';
+const razones = CONFIG.razones;
+const total = razones.length;
+document.getElementById('total-count').textContent = total;
+
+function layoutStars(n, W, H) {
+  const pts = [];
+  const cols = Math.ceil(Math.sqrt(n * 1.6));
+  const rows = Math.ceil(n / cols);
+  const cellW = W / cols, cellH = H / rows;
+  for (let i = 0; i < n; i++) {
+    const col = i % cols, row = Math.floor(i / cols);
+    pts.push({
+      x: Math.round(cellW * col + cellW * (0.2 + Math.random() * 0.6)),
+      y: Math.round(cellH * row + cellH * (0.2 + Math.random() * 0.6))
+    });
+  }
+  return pts;
+}
+
+const vW = 900, vH = 560, pad = 60;
+const positions = layoutStars(total, vW - pad*2, vH - pad*2).map(p => ({
+  x: p.x + pad, y: p.y + pad
+}));
+
+function nearestNeighbourLines(pts) {
+  const lines = [];
+  pts.forEach((a, i) => {
+    let best = Infinity, bestJ = -1;
+    pts.forEach((b, j) => {
+      if (i === j) return;
+      const d = Math.hypot(a.x - b.x, a.y - b.y);
+      if (d < best) { best = d; bestJ = j; }
+    });
+    if (bestJ >= 0 && !lines.find(l => (l[0]===i&&l[1]===bestJ)||(l[0]===bestJ&&l[1]===i)))
+      lines.push([i, bestJ]);
+  });
+  pts.forEach((a, i) => {
+    const dists = pts.map((b,j) => ({ j, d: Math.hypot(a.x-b.x,a.y-b.y) }))
+      .filter(x => x.j !== i).sort((a,b) => a.d - b.d);
+    const second = dists[1];
+    if (second && !lines.find(l => (l[0]===i&&l[1]===second.j)||(l[0]===second.j&&l[1]===i)))
+      lines.push([i, second.j]);
+  });
+  return lines;
+}
+
+nearestNeighbourLines(positions).forEach(([a, b]) => {
+  const el = document.createElementNS(NS, 'path');
+  el.setAttribute('class', 'constellation-line');
+  el.setAttribute('d', `M${positions[a].x},${positions[a].y} L${positions[b].x},${positions[b].y}`);
+  svg.appendChild(el);
+});
+
+const starSizes = [6,7,8,5,9,6,7,8,5,7,6,8,7,6,5];
+let visitedCount = 0;
+
+positions.forEach((pos, i) => {
+  const r = starSizes[i % starSizes.length];
+  const g = document.createElementNS(NS, 'g');
+  g.setAttribute('class', 'star-group' + (razones[i].foto ? ' has-photo' : ''));
+  g.setAttribute('tabindex', '0');
+  g.setAttribute('role', 'button');
+  g.setAttribute('aria-label', razones[i].nombre);
+
+  const glow = document.createElementNS(NS, 'circle');
+  glow.setAttribute('class', 'star-glow');
+  glow.setAttribute('cx', pos.x); glow.setAttribute('cy', pos.y);
+  glow.setAttribute('r', r + 9);
+
+  const core = document.createElementNS(NS, 'circle');
+  core.setAttribute('class', 'star-core');
+  core.setAttribute('cx', pos.x); core.setAttribute('cy', pos.y);
+  core.setAttribute('r', r);
+
+  const s = r * 0.5;
+  const sparkle = document.createElementNS(NS, 'path');
+  sparkle.setAttribute('d', `M${pos.x},${pos.y-r*1.7} L${pos.x+s*0.3},${pos.y-s*0.3} L${pos.x+r*1.7},${pos.y} L${pos.x+s*0.3},${pos.y+s*0.3} L${pos.x},${pos.y+r*1.7} L${pos.x-s*0.3},${pos.y+s*0.3} L${pos.x-r*1.7},${pos.y} L${pos.x-s*0.3},${pos.y-s*0.3} Z`);
+  sparkle.setAttribute('fill', 'rgba(240,234,255,0.6)');
+  sparkle.setAttribute('pointer-events', 'none');
+
+  const label = document.createElementNS(NS, 'text');
+  label.setAttribute('class', 'star-label');
+  label.setAttribute('x', pos.x); label.setAttribute('y', pos.y + r + 14);
+  label.setAttribute('text-anchor', 'middle');
+  label.textContent = razones[i].nombre;
+
+  g.appendChild(glow); g.appendChild(core);
+  g.appendChild(sparkle); g.appendChild(label);
+  svg.appendChild(g);
+
+  function openModal() {
+    if (!g.classList.contains('visited')) {
+      g.classList.add('visited');
+      visitedCount++;
+      document.getElementById('visited-count').textContent = visitedCount;
+    }
+    document.getElementById('modal-num').textContent = `✦  ${i+1} de ${total}  ✦`;
+    document.getElementById('modal-name').textContent = razones[i].nombre;
+    document.getElementById('modal-text').textContent = razones[i].texto;
+
+    const photoWrap = document.getElementById('modal-photo-wrap');
+    const photoEl   = document.getElementById('modal-photo');
+    if (razones[i].foto) {
+      photoEl.src = razones[i].foto;
+      photoWrap.classList.add('visible');
+    } else {
+      photoEl.src = '';
+      photoWrap.classList.remove('visible');
+    }
+
+    document.getElementById('modal-backdrop').classList.add('open');
+  }
+
+  g.addEventListener('click', openModal);
+  g.addEventListener('keydown', e => { if (e.key==='Enter'||e.key===' ') openModal(); });
+});
+
+setTimeout(() => {
+  document.querySelectorAll('.star-core').forEach((c, i) => {
+    c.style.animation = `twinkle ${2 + Math.random()*3}s ${Math.random()*2}s infinite`;
+  });
+}, 1500);
+
+const backdrop = document.getElementById('modal-backdrop');
+document.getElementById('modal-close').addEventListener('click', () => backdrop.classList.remove('open'));
+backdrop.addEventListener('click', e => { if (e.target === backdrop) backdrop.classList.remove('open'); });
+document.addEventListener('keydown', e => { if (e.key==='Escape') backdrop.classList.remove('open'); });
+
+window.addEventListener('scroll', () => {
+  const newH = document.body.scrollHeight;
+  if (newH !== H) { H = canvas.height = newH; buildStars(); }
+});
+</script>
+</body>
+</html>
