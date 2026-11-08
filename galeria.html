@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galería</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Inter:wght@300;400;500;600&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--red:#E50914;--dark:#141414;}
+body{background:var(--dark);color:white;font-family:'Inter',sans-serif;overflow-x:hidden;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;gap:32px;padding:18px 52px;background:rgba(20,20,20,0.97);box-shadow:0 2px 20px rgba(0,0,0,0.5);}
+.logo{color:var(--red);font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:3px;text-decoration:none;}
+.nav-links{display:flex;gap:0;list-style:none;}
+.nav-links a{color:#ccc;text-decoration:none;font-size:13px;padding:8px 14px;border-radius:4px;transition:all 0.2s;}
+.nav-links a:hover{color:white;background:rgba(255,255,255,0.08);}
+.nav-links a.active{color:white;font-weight:600;}
+
+.content{padding:120px 52px 80px;}
+.header{margin-bottom:52px;}
+.header-tag{font-size:11px;letter-spacing:5px;color:var(--red);text-transform:uppercase;margin-bottom:14px;}
+.header-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,6vw,80px);line-height:0.95;letter-spacing:2px;}
+.header-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;color:#777;margin-top:12px;}
+
+/* MASONRY GRID */
+.gallery-grid{
+  columns:4 240px;
+  column-gap:10px;
+}
+.gallery-item{
+  break-inside:avoid;
+  margin-bottom:10px;
+  position:relative;
+  cursor:pointer;
+  border-radius:8px;
+  overflow:hidden;
+  background:#1a1a1a;
+}
+.gallery-item img{
+  width:100%;
+  display:block;
+  transition:transform 0.4s ease,filter 0.3s;
+}
+.gallery-item:hover img{transform:scale(1.05);filter:brightness(0.7);}
+.gallery-item-ph{
+  width:100%;
+  height:200px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:40px;
+}
+.gallery-overlay{
+  position:absolute;inset:0;
+  display:flex;align-items:flex-end;
+  padding:16px;
+  background:linear-gradient(to top,rgba(0,0,0,0.8) 0%,transparent 50%);
+  opacity:0;transition:opacity 0.3s;
+}
+.gallery-item:hover .gallery-overlay{opacity:1;}
+.gallery-caption{font-size:13px;font-weight:500;color:white;text-shadow:1px 1px 3px black;}
+.gallery-expand{position:absolute;top:12px;right:12px;background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;opacity:0;transition:opacity 0.3s;}
+.gallery-item:hover .gallery-expand{opacity:1;}
+
+/* LIGHTBOX */
+.lightbox{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.96);backdrop-filter:blur(12px);}
+.lightbox.open{display:flex;}
+.lb-img{max-width:88vw;max-height:82vh;border-radius:8px;object-fit:contain;box-shadow:0 30px 80px rgba(0,0,0,0.8);}
+.lb-caption{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;color:#ccc;text-align:center;white-space:nowrap;}
+.lb-close{position:absolute;top:20px;right:24px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:20px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.lb-close:hover{background:rgba(229,9,20,0.7);border-color:var(--red);}
+.lb-prev,.lb-next{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;width:52px;height:52px;border-radius:50%;cursor:pointer;font-size:22px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.lb-prev{left:24px;}.lb-next{right:24px;}
+.lb-prev:hover,.lb-next:hover{background:rgba(229,9,20,0.5);border-color:var(--red);}
+
+@media(max-width:768px){
+  nav{padding:14px 20px;}.nav-links{display:none;}
+  .content{padding:90px 16px 60px;}
+  .gallery-grid{columns:2 140px;}
+  .lb-img{max-width:96vw;max-height:75vh;}
+  .lb-prev{left:8px;}.lb-next{right:8px;}
+}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="index.html">NETFLIX</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="nosotros.html">Nuestra Historia</a></li>
+    <li><a href="momentos.html">Momentos</a></li>
+    <li><a href="carta.html">Carta Para Ti</a></li>
+    <li><a href="galeria.html" class="active">Galería</a></li>
+  </ul>
+</nav>
+
+<div class="content">
+  <div class="header">
+    <div class="header-tag">Colección completa</div>
+    <div class="header-title">NUESTRA<br>GALERÍA</div>
+    <div class="header-sub">Cada foto es un momento que vale mil palabras. Haz clic para verla.</div>
+  </div>
+
+  <!-- ==============================================
+       GALERÍA — Añade o quita items como quieras
+       Cambia src="" por el nombre de tu foto
+       Cambia el texto del data-caption
+  =============================================== -->
+  <div class="gallery-grid" id="gallery">
+
+    <div class="gallery-item" onclick="abrirLightbox(0)">
+      <img src="galeria1.jpg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="gallery-item-ph" style="display:none;background:linear-gradient(135deg,#1a0808,#3d1010);">🌅</div>
+      <div class="gallery-overlay"><div class="gallery-caption">Nuestro primer día</div></div>
+      <div class="gallery-expand">⤢</div>
+    </div>
+
+    <div class="gallery-item" onclick="abrirLightbox(1)">
+      <img src="galeria2.jpg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="gallery-item-ph" style="display:none;background:linear-gradient(135deg,#081a14,#104030);">🏖️</div>
+      <div class="gallery-overlay"><div class="gallery-caption">Verano perfecto</div></div>
+      <div class="gallery-expand">⤢</div>
+    </div>
+
+    <div class="gallery-item" onclick="abrirLightbox(2)">
+      <img src="galeria3.jpg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="gallery-item-ph" style="display:none;background:linear-gradient(135deg,#08081a,#101040);">🌃</div>
+      <div class="gallery-overlay"><div class="gallery-caption">Noches mágicas</div></div>
+      <div class="gallery-expand">⤢</div>
+    </div>
+
+    <div class="gallery-item" onclick="abrirLightbox(3)">
+      <img src="galeria4.jpg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="gallery-item-ph" style="display:none;background:linear-gradient(135deg,#1a1400,#402800);">🍂</div>
+      <div class="gallery-overlay"><div class="gallery-caption">Otoño contigo</div></div>
+      <div class="gallery-expand">⤢</div>
+    </div>
+
+    <div class="gallery-item" onclick="abrirLightbox(4)">
+      <img src="galeria5.jpg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="gallery-item-ph" style="display:none;background:linear-gradient(135deg,#1a0818,#400038);">🎉</div>
+      <div class="gallery-overlay"><div class="gallery-caption">Celebrando</div></div>
+      <div class="gallery-expand">⤢</div>
+    </div>
+
+    <div class="gallery-item" onclick="abrirLightbox(5)">
+      <img src="galeria6.jpg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="gallery-item-ph" style="display:none;background:linear-gradient(135deg,#08180a,#004010);">🌿</div>
+      <div class="gallery-overlay"><div class="gallery-caption">Naturaleza</div></div>
+      <div class="gallery-expand">⤢</div>
+    </div>
+
+    <div class="gallery-item" onclick="abrirLightbox(6)">
+      <img src="galeria7.jpg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="gallery-item-ph" style="display:none;background:linear-gradient(135deg,#1a0a08,#3d2010);">☕</div>
+      <div class="gallery-overlay"><div class="gallery-caption">Mañanas tranquilas</div></div>
+      <div class="gallery-expand">⤢</div>
+    </div>
+
+    <div class="gallery-item" onclick="abrirLightbox(7)">
+      <img src="galeria8.jpg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="gallery-item-ph" style="display:none;background:linear-gradient(135deg,#0a1018,#203040);">✈️</div>
+      <div class="gallery-overlay"><div class="gallery-caption">Nuestro viaje</div></div>
+      <div class="gallery-expand">⤢</div>
+    </div>
+
+    <div class="gallery-item" onclick="abrirLightbox(8)">
+      <img src="galeria9.jpg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="gallery-item-ph" style="display:none;background:linear-gradient(135deg,#181008,#402000);">🌄</div>
+      <div class="gallery-overlay"><div class="gallery-caption">Atardecer juntos</div></div>
+      <div class="gallery-expand">⤢</div>
+    </div>
+
+    <div class="gallery-item" onclick="abrirLightbox(9)">
+      <img src="galeria10.jpg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="gallery-item-ph" style="display:none;background:linear-gradient(135deg,#180818,#300030);">💫</div>
+      <div class="gallery-overlay"><div class="gallery-caption">Para siempre</div></div>
+      <div class="gallery-expand">⤢</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="cerrarLightbox()">✕</button>
+  <button class="lb-prev" onclick="cambiarFoto(-1)">‹</button>
+  <img class="lb-img" id="lb-img" src="" alt="">
+  <div class="lb-caption" id="lb-caption"></div>
+  <button class="lb-next" onclick="cambiarFoto(1)">›</button>
+</div>
+
+<footer style="text-align:center;padding:40px 52px;color:#444;font-size:12px;border-top:1px solid #222;line-height:2;font-family:'Inter',sans-serif;">
+  <div>NETFLIX · Una producción original de amor</div>
+  <div style="margin-top:8px;">
+    <a href="index.html" style="color:#777;text-decoration:none;">Inicio</a> · 
+    <a href="nosotros.html" style="color:#777;text-decoration:none;">Nuestra Historia</a> · 
+    <a href="momentos.html" style="color:#777;text-decoration:none;">Momentos</a> · 
+    <a href="carta.html" style="color:#777;text-decoration:none;">Carta Para Ti</a>
+  </div>
+</footer>
+
+<script>
+let fotos=[];
+let fotoActual=0;
+
+// Recopilar todas las fotos de la galería
+function recopilarFotos(){
+  fotos=[];
+  document.querySelectorAll('.gallery-item').forEach(item=>{
+    const img=item.querySelector('img');
+    const caption=item.querySelector('.gallery-caption');
+    fotos.push({
+      src: img ? img.src : '',
+      caption: caption ? caption.textContent : ''
+    });
+  });
+}
+
+function abrirLightbox(idx){
+  recopilarFotos();
+  fotoActual=idx;
+  mostrarFoto();
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function mostrarFoto(){
+  const f=fotos[fotoActual];
+  const img=document.getElementById('lb-img');
+  img.src=f.src;
+  img.onerror=function(){this.src='';};
+  document.getElementById('lb-caption').textContent=f.caption;
+}
+
+function cambiarFoto(dir){
+  fotoActual=(fotoActual+dir+fotos.length)%fotos.length;
+  mostrarFoto();
+}
+
+function cerrarLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') cerrarLightbox();
+  if(e.key==='ArrowRight') cambiarFoto(1);
+  if(e.key==='ArrowLeft') cambiarFoto(-1);
+});
+</script>
+</body>
+</html>

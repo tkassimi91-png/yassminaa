@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Carta Para Ti</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--red:#E50914;--dark:#141414;}
+body{background:var(--dark);color:white;font-family:'Inter',sans-serif;overflow-x:hidden;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;gap:32px;padding:18px 52px;background:rgba(20,20,20,0.97);box-shadow:0 2px 20px rgba(0,0,0,0.5);}
+.logo{color:var(--red);font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:3px;text-decoration:none;}
+.nav-links{display:flex;gap:0;list-style:none;}
+.nav-links a{color:#ccc;text-decoration:none;font-size:13px;padding:8px 14px;border-radius:4px;transition:all 0.2s;}
+.nav-links a:hover{color:white;background:rgba(255,255,255,0.08);}
+.nav-links a.active{color:white;font-weight:600;}
+
+/* FONDO ATMOSFÉRICO */
+.bg-glow{position:fixed;top:20%;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(ellipse,rgba(229,9,20,0.06) 0%,transparent 70%);pointer-events:none;z-index:0;}
+
+.carta-container{max-width:720px;margin:0 auto;padding:130px 40px 100px;position:relative;z-index:1;}
+
+/* SOBRE / APERTURA */
+.sobre-wrap{text-align:center;margin-bottom:80px;}
+.sobre-tag{font-size:11px;letter-spacing:5px;color:var(--red);text-transform:uppercase;margin-bottom:20px;}
+.sobre-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,8vw,96px);line-height:0.9;letter-spacing:3px;margin-bottom:24px;}
+.sobre-desde{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;color:#666;border-top:1px solid #222;border-bottom:1px solid #222;padding:16px 0;margin-bottom:60px;}
+
+/* CARTA */
+.carta{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:60px;}
+
+.carta-saludo{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:2px;color:var(--red);margin-bottom:36px;}
+
+.carta-parrafo{font-family:'Cormorant Garamond',serif;font-size:20px;line-height:2;color:#ccc;margin-bottom:32px;font-weight:300;}
+
+.carta-parrafo em{color:white;font-style:italic;}
+
+.carta-destacado{border-left:3px solid var(--red);padding:20px 28px;margin:40px 0;background:rgba(229,9,20,0.05);border-radius:0 8px 8px 0;}
+.carta-destacado p{font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:#ddd;line-height:1.9;font-weight:300;}
+
+.carta-firma{margin-top:52px;text-align:right;}
+.carta-firma-nombre{font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:3px;color:white;}
+.carta-firma-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:#666;margin-top:6px;}
+
+/* CORAZONES DECORATIVOS */
+.hearts{display:flex;justify-content:center;gap:12px;margin:48px 0;}
+.hearts span{color:var(--red);font-size:20px;animation:latido 1.4s ease-in-out infinite;}
+.hearts span:nth-child(2){animation-delay:0.2s;}
+.hearts span:nth-child(3){animation-delay:0.4s;}
+@keyframes latido{0%,100%{transform:scale(1);}50%{transform:scale(1.3);}}
+
+/* SECCIÓN DE FOTOS dentro de la carta */
+.carta-foto{width:100%;height:320px;object-fit:cover;border-radius:12px;margin:36px 0;}
+.carta-foto-ph{width:100%;height:320px;background:linear-gradient(135deg,#1a0818,#3d1040);border-radius:12px;margin:36px 0;display:flex;align-items:center;justify-content:center;font-size:64px;}
+
+@media(max-width:768px){
+  nav{padding:14px 20px;}.nav-links{display:none;}
+  .carta-container{padding:100px 20px 60px;}
+  .carta{padding:32px 24px;}
+  .carta-parrafo{font-size:18px;}
+}
+</style>
+</head>
+<body>
+<div class="bg-glow"></div>
+<nav>
+  <a class="logo" href="index.html">NETFLIX</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="nosotros.html">Nuestra Historia</a></li>
+    <li><a href="momentos.html">Momentos</a></li>
+    <li><a href="carta.html" class="active">Carta Para Ti</a></li>
+    <li><a href="galeria.html">Galería</a></li>
+  </ul>
+</nav>
+
+<div class="carta-container">
+
+  <div class="sobre-wrap">
+    <div class="sobre-tag">Episodio especial · Solo para tus ojos</div>
+    <!-- CAMBIA EL NOMBRE -->
+    <div class="sobre-title">CARTA PARA<br>TI, AMOR</div>
+    <div class="sobre-desde">Escrita con todo lo que no sé decirte en voz alta</div>
+  </div>
+
+  <div class="carta">
+    <!-- CAMBIA EL NOMBRE en el saludo -->
+    <div class="carta-saludo">Hola, mi amor:</div>
+
+    <!-- ============================================
+         CAMBIA CADA PÁRRAFO CON TUS PALABRAS
+    ============================================= -->
+    <p class="carta-parrafo">
+      Hay cosas que me cuesta decirte en voz alta. No porque no las sienta, sino porque
+      las palabras se quedan cortas cuando intentan describir <em>lo que me haces sentir</em>.
+      Por eso decidí escribirte esto: para que lo puedas leer cuando quieras,
+      cuando me eches de menos, o simplemente cuando necesites saber lo que significas para mí.
+    </p>
+
+    <!-- FOTO DENTRO DE LA CARTA — CAMBIA "carta_foto1.jpg" -->
+    <img class="carta-foto" src="carta_foto1.jpg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="carta-foto-ph" style="display:none;">📷</div>
+
+    <p class="carta-parrafo">
+      Desde que llegaste, hay cosas que ya no son iguales. El día parece tener más color,
+      los problemas se hacen más pequeños y hasta los lunes son más llevaderos. 
+      Sé que suena a tópico, pero es la verdad más pura que tengo.
+    </p>
+
+    <div class="carta-destacado">
+      <p>
+        "Elegirte no fue una decisión que tomé un día. Es una decisión que tomo 
+        cada mañana cuando me despierto y sé que estás ahí."
+      </p>
+    </div>
+
+    <p class="carta-parrafo">
+      Me gusta la persona en la que me convierto cuando estoy contigo.
+      Soy más valiente, más tranquilo/a, más yo. Y eso es algo que muy poca gente
+      puede darte en esta vida. <em>Tú me lo das sin esfuerzo</em>, sin darte cuenta,
+      solo por ser como eres.
+    </p>
+
+    <!-- SEGUNDA FOTO — CAMBIA "carta_foto2.jpg" -->
+    <img class="carta-foto" src="carta_foto2.jpg" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+    <div class="carta-foto-ph" style="display:none;">🌅</div>
+
+    <p class="carta-parrafo">
+      Quiero que sepas que cada vez que estás triste, lo siento. Que cuando te ríes,
+      me alegra el día entero. Que pienso en ti en los momentos más inesperados,
+      y que no cambiaría nada de lo que hemos vivido.
+    </p>
+
+    <p class="carta-parrafo">
+      Gracias por quedarte. Por elegirme también tú. Por los días buenos y por los 
+      no tan buenos, que al final también nos han hecho más fuertes.
+      Gracias por ser <em>tú, exactamente como eres</em>.
+    </p>
+
+    <div class="hearts">
+      <span>♥</span><span>♥</span><span>♥</span>
+    </div>
+
+    <!-- FIRMA — CAMBIA TU NOMBRE -->
+    <div class="carta-firma">
+      <div class="carta-firma-nombre">Con todo mi amor,<br>— Tu nombre —</div>
+      <div class="carta-firma-sub">Para siempre y un poco más</div>
+    </div>
+  </div>
+
+</div>
+
+<footer style="text-align:center;padding:40px 52px;color:#444;font-size:12px;border-top:1px solid #222;line-height:2;font-family:'Inter',sans-serif;">
+  <div>NETFLIX · Una producción original de amor</div>
+  <div style="margin-top:8px;">
+    <a href="index.html" style="color:#777;text-decoration:none;">Inicio</a> · 
+    <a href="nosotros.html" style="color:#777;text-decoration:none;">Nuestra Historia</a> · 
+    <a href="momentos.html" style="color:#777;text-decoration:none;">Momentos</a> · 
+    <a href="galeria.html" style="color:#777;text-decoration:none;">Galería</a>
+  </div>
+</footer>
+</body>
+</html>
