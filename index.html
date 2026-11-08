@@ -3,517 +3,398 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>asbab 3lach ana kanb4ik </title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Cinzel:wght@400;500&display=swap" rel="stylesheet">
+<title>Netflix — LA MEILLEURE CHOSE QUE JE POSSÈDE</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap');
 
-  :root {
-    --gold: #c9a96e;
-    --gold-dim: rgba(201,169,110,0.18);
-    --star-white: #f0eaff;
-    --nebula-1: #1a0a2e;
-    --nebula-2: #0d0520;
-    --nebula-3: #06020f;
-    --text-bright: #f5f0ff;
-    --text-dim: rgba(245,240,255,0.55);
-  }
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--red:#E50914;--dark:#141414;--card:#181818;}
+body{background:var(--dark);color:white;font-family:'Inter',sans-serif;overflow-x:hidden;}
 
-  html, body {
-    width: 100%; min-height: 100vh;
-    background: var(--nebula-3);
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    color: var(--text-bright);
-    overflow-x: hidden;
-    cursor: default;
-  }
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;gap:32px;padding:18px 52px;transition:background 0.4s;}
+nav.scrolled{background:rgba(20,20,20,0.97);box-shadow:0 2px 20px rgba(0,0,0,0.5);}
+.logo{color:var(--red);font-family:'Bebas Neue',sans-serif;font-size:38px;letter-spacing:3px;text-decoration:none;flex-shrink:0;}
+.nav-links{display:flex;gap:0;list-style:none;margin-left:8px;}
+.nav-links a{color:#ccc;text-decoration:none;font-size:13px;padding:8px 14px;border-radius:4px;transition:all 0.2s;white-space:nowrap;}
+.nav-links a:hover{color:white;background:rgba(255,255,255,0.08);}
+.nav-links a.active{color:white;font-weight:600;}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:16px;}
+.nav-right span{font-size:13px;color:#ccc;}
 
-  /* ── CANVAS ── */
-  #sky { position: fixed; inset: 0; z-index: 0; }
+/* HERO */
+.hero{position:relative;width:100%;height:100vh;min-height:700px;overflow:hidden;background:#000;}
+#hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;}
+.hero-overlay{position:absolute;inset:0;z-index:1;background:
+  linear-gradient(to right,rgba(0,0,0,0.88) 38%,rgba(0,0,0,0.05) 100%),
+  linear-gradient(to top,rgba(20,20,20,1) 0%,transparent 30%),
+  linear-gradient(to bottom,rgba(0,0,0,0.5) 0%,transparent 18%);}
+.hero-content{position:absolute;z-index:2;bottom:110px;left:52px;max-width:560px;}
+.badge{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:5px;color:#bbb;text-transform:uppercase;margin-bottom:14px;}
+.badge::before{content:'';display:block;width:3px;height:20px;background:var(--red);border-radius:2px;}
+.hero-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,6.5vw,86px);line-height:0.92;letter-spacing:2px;margin-bottom:18px;text-shadow:0 4px 30px rgba(0,0,0,0.6);}
+.hero-meta{display:flex;align-items:center;gap:14px;font-size:13px;margin-bottom:16px;flex-wrap:wrap;}
+.match{color:#46d369;font-weight:600;}
+.rating{border:1px solid #888;padding:2px 7px;font-size:11px;color:#aaa;}
+.hero-desc{font-size:15px;line-height:1.75;color:#ddd;margin-bottom:28px;font-weight:300;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;}
+.hero-buttons{display:flex;gap:12px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 30px;border-radius:4px;font-size:16px;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;text-decoration:none;font-family:'Inter',sans-serif;}
+.btn-play{background:white;color:black;}
+.btn-play:hover{background:rgba(255,255,255,0.78);}
+.btn-info{background:rgba(109,109,110,0.65);color:white;}
+.btn-info:hover{background:rgba(109,109,110,0.4);}
+.play-icon{width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:16px solid currentColor;}
 
-  /* ── HEADER ── */
-  header {
-    position: relative; z-index: 10;
-    text-align: center;
-    padding: 60px 20px 20px;
-    pointer-events: none;
-  }
-  header .subtitle {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(10px, 1.8vw, 13px);
-    letter-spacing: 0.35em;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    opacity: 0;
-    animation: fadeUp 1.2s 0.3s forwards;
-  }
-  header h1 {
-    font-size: clamp(36px, 7vw, 72px);
-    font-weight: 300;
-    line-height: 1.1;
-    letter-spacing: 0.04em;
-    color: var(--text-bright);
-    opacity: 0;
-    animation: fadeUp 1.2s 0.6s forwards;
-  }
-  header h1 em {
-    font-style: italic;
-    color: var(--gold);
-  }
-  header .intro {
-    font-size: clamp(14px, 2vw, 17px);
-    font-style: italic;
-    color: var(--text-dim);
-    margin-top: 14px;
-    opacity: 0;
-    animation: fadeUp 1.2s 0.9s forwards;
-  }
+/* ROWS */
+.rows{padding:0 52px 80px;position:relative;z-index:2;}
+.row{margin-bottom:48px;}
+.row-header{display:flex;align-items:baseline;gap:16px;margin-bottom:14px;}
+.row-title{font-size:20px;font-weight:600;color:#e5e5e5;}
+.row-subtitle{font-size:13px;color:#777;font-weight:300;}
+.cards-scroll{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:8px;}
+.cards-scroll::-webkit-scrollbar{display:none;}
 
-  /* ── CONSTELLATION AREA ── */
-  #constellation-wrap {
-    position: relative; z-index: 10;
-    width: 100%; max-width: 960px;
-    margin: 40px auto 0;
-    padding: 0 20px;
-  }
-  #constellation-svg {
-    width: 100%; height: auto;
-    display: block;
-    filter: drop-shadow(0 0 18px rgba(201,169,110,0.08));
-  }
+/* CARD */
+.card{flex:0 0 220px;height:124px;border-radius:6px;overflow:hidden;position:relative;cursor:pointer;background:#222;transition:transform 0.3s cubic-bezier(.25,.8,.25,1),box-shadow 0.3s;}
+.card:hover{transform:scale(1.1) translateY(-4px);z-index:10;box-shadow:0 16px 40px rgba(0,0,0,0.8);}
+.card img{width:100%;height:100%;object-fit:cover;display:block;transition:filter 0.3s;}
+.card:hover img{filter:brightness(1.1);}
+.card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.75) 0%,transparent 55%);opacity:0;transition:opacity 0.3s;}
+.card:hover .card-overlay{opacity:1;}
+.card-label{position:absolute;bottom:8px;left:10px;right:10px;font-size:12px;font-weight:600;text-shadow:1px 1px 6px black;opacity:0;transition:opacity 0.3s;transform:translateY(4px);transition:all 0.3s;}
+.card:hover .card-label{opacity:1;transform:translateY(0);}
+.card-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);background:rgba(255,255,255,0.9);width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;transition:transform 0.25s;}
+.card:hover .card-play{transform:translate(-50%,-50%) scale(1);}
+.card-play-arrow{width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:14px solid #141414;margin-left:3px;}
+.c1{background:linear-gradient(135deg,#1a0808,#3d1010);}
+.c2{background:linear-gradient(135deg,#081a14,#104030);}
+.c3{background:linear-gradient(135deg,#08081a,#101040);}
+.c4{background:linear-gradient(135deg,#1a1408,#402800);}
+.c5{background:linear-gradient(135deg,#1a0818,#400038);}
+.c6{background:linear-gradient(135deg,#08180a,#004010);}
 
-  /* ── STARS ── */
-  .star-group { cursor: pointer; }
-  .star-glow {
-    fill: var(--gold);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .star-core {
-    fill: var(--star-white);
-    transition: fill 0.3s, r 0.3s;
-  }
-  .star-group:hover .star-glow { opacity: 1; }
-  .star-group:hover .star-core { fill: var(--gold); }
-  .star-group.visited .star-core { fill: var(--gold); opacity: 0.85; }
-  .star-label {
-    fill: rgba(245,240,255,0.45);
-    font-family: 'Cinzel', serif;
-    font-size: 8px;
-    letter-spacing: 0.12em;
-    pointer-events: none;
-    transition: fill 0.3s;
-  }
-  .star-group:hover .star-label,
-  .star-group.visited .star-label { fill: var(--gold); }
-  .constellation-line {
-    stroke: rgba(201,169,110,0.18);
-    stroke-width: 0.8;
-    stroke-dasharray: 4 4;
-    fill: none;
-    pointer-events: none;
-  }
+/* MODAL CARTA DE AMOR */
+.modal-bg{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-bg.open{display:flex;}
+.modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,0.92);backdrop-filter:blur(8px);cursor:pointer;}
+.modal-card{position:relative;z-index:1;width:100%;max-width:680px;border-radius:16px;overflow:hidden;animation:modalIn 0.45s cubic-bezier(.25,.8,.25,1);}
+@keyframes modalIn{from{opacity:0;transform:scale(0.88) translateY(30px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.modal-img{width:100%;height:340px;object-fit:cover;display:block;}
+.modal-img-placeholder{width:100%;height:340px;display:flex;align-items:center;justify-content:center;font-size:80px;background:linear-gradient(135deg,#1a0818,#3d1040);}
+.modal-body{background:rgba(15,10,20,0.97);padding:36px 40px 40px;border-top:1px solid rgba(255,255,255,0.06);}
+.modal-episode{font-size:11px;letter-spacing:4px;color:var(--red);text-transform:uppercase;margin-bottom:10px;}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:2px;margin-bottom:20px;color:white;}
+.modal-letter{font-family:'Cormorant Garamond',serif;font-size:19px;line-height:1.85;color:#ddd;font-style:italic;font-weight:300;}
+.modal-letter p{margin-bottom:14px;}
+.modal-letter .firma{color:#E50914;font-style:normal;font-weight:400;font-size:17px;margin-top:24px;display:block;}
+.modal-close{position:absolute;top:14px;right:16px;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.15);color:white;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;z-index:2;transition:all 0.2s;}
+.modal-close:hover{background:rgba(229,9,20,0.8);border-color:var(--red);}
 
-  /* ── MODAL ── */
-  #modal-backdrop {
-    position: fixed; inset: 0; z-index: 100;
-    background: rgba(6,2,15,0.82);
-    backdrop-filter: blur(6px);
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0; pointer-events: none;
-    transition: opacity 0.4s;
-  }
-  #modal-backdrop.open { opacity: 1; pointer-events: all; }
-  #modal {
-    background: linear-gradient(145deg, #160b2e, #0d0520);
-    border: 0.5px solid rgba(201,169,110,0.35);
-    border-radius: 4px;
-    padding: 44px 48px;
-    max-width: 480px; width: 90%;
-    text-align: center;
-    transform: scale(0.92) translateY(12px);
-    transition: transform 0.4s;
-    position: relative;
-    box-shadow: 0 0 60px rgba(201,169,110,0.08), inset 0 0 40px rgba(201,169,110,0.03);
-  }
-  #modal-backdrop.open #modal { transform: scale(1) translateY(0); }
+/* FOOTER */
+footer{text-align:center;padding:40px 52px;color:#444;font-size:12px;border-top:1px solid #222;line-height:2;}
+footer a{color:#777;text-decoration:none;}
 
-  #modal-num {
-    font-family: 'Cinzel', serif;
-    font-size: 11px;
-    letter-spacing: 0.3em;
-    color: var(--gold);
-    margin-bottom: 10px;
-  }
-  #modal-name {
-    font-family: 'Cinzel', serif;
-    font-size: 13px;
-    letter-spacing: 0.2em;
-    color: rgba(201,169,110,0.6);
-    text-transform: uppercase;
-    margin-bottom: 20px;
-  }
-  #modal-divider {
-    width: 40px; height: 1px;
-    background: var(--gold);
-    opacity: 0.4;
-    margin: 0 auto 24px;
-  }
-  #modal-text {
-    font-size: clamp(18px, 3vw, 24px);
-    font-weight: 300;
-    font-style: italic;
-    line-height: 1.6;
-    color: var(--text-bright);
-    letter-spacing: 0.01em;
-  }
-  #modal-close {
-    position: absolute; top: 16px; right: 20px;
-    background: none; border: none; cursor: pointer;
-    color: rgba(201,169,110,0.5);
-    font-size: 22px; line-height: 1;
-    transition: color 0.2s;
-    font-family: 'Cormorant Garamond', serif;
-  }
-  #modal-close:hover { color: var(--gold); }
-#modal-photo-wrap {
-  display: none;
-  margin-bottom: 22px;
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:14px 20px;gap:12px;}
+  .nav-links{display:none;}
+  .hero-content{left:20px;bottom:80px;max-width:92%;}
+  .hero-title{font-size:44px;}
+  .rows{padding:0 20px 60px;}
+  .card{flex:0 0 160px;height:90px;}
+  .modal-card{max-width:95%;}
+  .modal-img,.modal-img-placeholder{height:220px;}
+  .modal-body{padding:24px 24px 28px;}
+  .modal-title{font-size:28px;}
+  .modal-letter{font-size:17px;}
 }
-#modal-photo-wrap.visible { display: block; }
-#modal-photo {
-  width: 100%; max-height: 280px;
-  object-fit: cover;
-  border-radius: 3px;
-  border: 0.5px solid rgba(201,169,110,0.25);
-  display: block;
-}
-.star-group.has-photo .star-core { fill: #e8c8ff; }
-.star-group.has-photo.visited .star-core { fill: #c97fe8; }
-  /* ── COUNTER ── */
-  #counter {
-    position: relative; z-index: 10;
-    text-align: center;
-    padding: 50px 20px 30px;
-    opacity: 0;
-    animation: fadeUp 1.2s 1.4s forwards;
-  }
-  #counter .num {
-    font-family: 'Cinzel', serif;
-    font-size: clamp(28px, 5vw, 48px);
-    color: var(--gold);
-    letter-spacing: 0.06em;
-  }
-  #counter .label {
-    font-size: clamp(12px, 2vw, 15px);
-    font-style: italic;
-    color: var(--text-dim);
-    margin-top: 6px;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    position: relative; z-index: 10;
-    text-align: center;
-    padding: 30px 20px 60px;
-    font-style: italic;
-    font-size: clamp(13px, 2vw, 16px);
-    color: rgba(245,240,255,0.3);
-  }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes twinkle {
-    0%, 100% { opacity: 0.9; }
-    50%       { opacity: 0.3; }
-  }
-  @keyframes pulse-glow {
-    0%, 100% { opacity: 0.6; r: 10; }
-    50%       { opacity: 1;   r: 13; }
-  }
 </style>
 </head>
 <body>
 
-<canvas id="sky"></canvas>
+<nav id="navbar">
+  <a class="logo" href="index.html">NETFLIX</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Inicio</a></li>
+    <li><a href="nosotros.html">Nuestra Historia</a></li>
+    <li><a href="momentos.html">Momentos</a></li>
+    <li><a href="carta.html">Carta Para Ti</a></li>
+    <li><a href="galeria.html">Galería</a></li>
+  </ul>
+  <div class="nav-right"><span>❤️ just pour yasmine </span></div>
+</nav>
 
-<header>
-  <p class="subtitle">Just for Yassmine </p>
-  <h1>asbab elach <br><em>kanb4i Yassmine</em></h1>
-  <p class="intro">kola njema fiha wahed sabab 3lach ana kanb4ik <br>9isi kola wehda aytla3 sabab</p>
-</header>
-
-<div id="constellation-wrap">
-  <svg id="constellation-svg" viewBox="0 0 900 560" xmlns="http://www.w3.org/2000/svg"></svg>
-</div>
-
-<div id="counter">
-  <p class="num"><span id="visited-count">0</span> / <span id="total-count">0</span></p>
-  <p class="label">njmat li chfeti db </p>
-</div>
-
-<footer>hadchi msayeb bkol lhob lhbibti Yassmine w bnti ❤️ &nbsp;✦</footer>
-
-<div id="modal-backdrop">
-  <div id="modal">
-    <button id="modal-close" aria-label="Cerrar">×</button>
-    <p id="modal-num"></p>
-    <p id="modal-name"></p>
-    <div id="modal-divider"></div>
-    <div id="modal-photo-wrap">
-  <img id="modal-photo" src="" alt="Foto especial" />
-</div>
-    <p id="modal-text"></p>
+<!-- HERO -->
+<div class="hero">
+  <!-- CAMBIA "TU_VIDEO.mp4" por el nombre de tu vídeo -->
+  <video id="hero-video" autoplay muted loop playsinline>
+    <source src="TU_VIDEO.mov" type="video/mp4">
+  </video>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="badge">Serie Original</div>
+    <!-- CAMBIA EL TÍTULO -->
+    <h1 class="hero-title">LA MEILLEURE CHOSE <br> QUE JE POSSÈDE</h1>
+    <div class="hero-meta">
+      <span class="match">99% para ti</span>
+      <span>2026</span>
+      <span class="rating">+18</span>
+      <span>Temporada 1</span>
+    </div>
+    <!-- CAMBIA LA DESCRIPCIÓN -->
+    <p class="hero-desc">
+      Tout a changé dès l'instant où je t'ai trouvé. Malgré les jours difficiles,<br>
+      tu n'as jamais cessé d'être la meilleure partie de ma vie.
+    </p>
+    <div class="hero-buttons">
+      <button class="btn btn-play"><span class="play-icon"></span> Reproducir</button>
+      <a href="nosotros.html" class="btn btn-info">ℹ️ Más información</a>
+    </div>
   </div>
 </div>
 
+<!-- FILAS -->
+<div class="rows">
+
+  <!-- FILA 1 -->
+  <div class="row">
+    <div class="row-header">
+      <div class="row-title">liyamat zina</div>
+      <div class="row-subtitle"> reki hna bach t9ray risala </div>
+    </div>
+    <div class="cards-scroll">
+
+      <!-- CARD 1 — cambia src="foto1.jpg" y el texto de la carta -->
+      <div class="card c1" onclick="abrirCarta(this)">
+        <img src="foto1.jpg" alt="" onerror="this.style.display='none'">
+        <div class="card-overlay"></div>
+        <div class="card-play"><div class="card-play-arrow"></div></div>
+        <div class="card-label">nhar lwel </div>
+        <div class="carta-data" hidden>
+          <span class="c-episode">Episodio 1</span>
+          <span class="c-title">nhar lwel dyalna </span>
+          <span class="c-img">foto5.jpg</span>
+          <span class="c-texto">mazal kan3e9al 3la nhar lwel bhala yalah lbarah, ma3arfach ta dwi m3a mol taxi 3tyani ndwi m3ah ana hhh w fach bntiliya jaya chftek f taxi b4it nji 3ndk ta weslt lnes w ana ntfker bli makhalstech l9ahwa hhhh jit rja3 bntili nti jaya 9otlk 7bes we9af 3nd 7dek hhh saref howa lwel hhhh iwa moraha t3an9na dik t3ni9a zwina w chwaben b9aw kaychofo hadchi li 9iltili nti hhhh</span>
+        </div>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="card c2" onclick="abrirCarta(this)">
+        <img src="foto2.jpg" alt="" onerror="this.style.display='none'">
+        <div class="card-overlay"></div>
+        <div class="card-play"><div class="card-play-arrow"></div></div>
+        <div class="card-label">Ese viaje especial</div>
+        <div class="carta-data" hidden>
+          <span class="c-episode">Episodio 2</span>
+          <span class="c-title">Ese Viaje Especial</span>
+          <span class="c-img">foto2.jpg</span>
+          <span class="c-texto">Aquel viaje lo tengo grabado en el corazón. Cada rincón que exploramos juntos se convirtió en un recuerdo que atesoro. Eres mi compañero/a de aventuras favorito/a, y espero que sigamos haciendo este tipo de locuras por mucho tiempo.</span>
+        </div>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="card c3" onclick="abrirCarta(this)">
+        <img src="foto3.jpg" alt="" onerror="this.style.display='none'">
+        <div class="card-overlay"></div>
+        <div class="card-play"><div class="card-play-arrow"></div></div>
+        <div class="card-label">Tu sonrisa</div>
+        <div class="carta-data" hidden>
+          <span class="c-episode">Episodio 3</span>
+          <span class="c-title">Tu Sonrisa</span>
+          <span class="c-img">foto3.jpg</span>
+          <span class="c-texto">Podría escribir mil páginas sobre tu sonrisa y aún me quedaría corto/a. Cuando sonríes, el mundo se para un segundo. No hay nada más bonito que verte feliz, y saber que a veces soy yo la razón de esa sonrisa me llena de una alegría que no cabe en el pecho.</span>
+        </div>
+      </div>
+
+      <!-- CARD 4 -->
+      <div class="card c4" onclick="abrirCarta(this)">
+        <img src="foto4.jpg" alt="" onerror="this.style.display='none'">
+        <div class="card-overlay"></div>
+        <div class="card-play"><div class="card-play-arrow"></div></div>
+        <div class="card-label">Tarde de domingo</div>
+        <div class="carta-data" hidden>
+          <span class="c-episode">Episodio 4</span>
+          <span class="c-title">Tarde de Domingo</span>
+          <span class="c-img">foto4.jpg</span>
+          <span class="c-texto">Los domingos contigo son mi momento favorito de la semana. Sin prisa, sin planes, solo nosotros. Esas tardes tranquilas valen más que cualquier gran aventura. Gracias por hacer de los días normales algo extraordinario.</span>
+        </div>
+      </div>
+
+      <!-- CARD 5 -->
+      <div class="card c5" onclick="abrirCarta(this)">
+        <img src="foto5.jpg" alt="" onerror="this.style.display='none'">
+        <div class="card-overlay"></div>
+        <div class="card-play"><div class="card-play-arrow"></div></div>
+        <div class="card-label">Nuestra foto favorita</div>
+        <div class="carta-data" hidden>
+          <span class="c-episode">Episodio 5</span>
+          <span class="c-title">Nuestra Foto Favorita</span>
+          <span class="c-img">foto5.jpg</span>
+          <span class="c-texto">Esta foto la miro cuando te echo de menos. Captura algo que las palabras no pueden explicar del todo: la forma en que estamos juntos, la complicidad, esa energía que solo existe entre tú y yo. Guárdala, porque vale oro.</span>
+        </div>
+      </div>
+
+      <!-- CARD 6 -->
+      <div class="card c6" onclick="abrirCarta(this)">
+        <img src="foto6.jpg" alt="" onerror="this.style.display='none'">
+        <div class="card-overlay"></div>
+        <div class="card-play"><div class="card-play-arrow"></div></div>
+        <div class="card-label">Para siempre</div>
+        <div class="carta-data" hidden>
+          <span class="c-episode">Episodio 6</span>
+          <span class="c-title">Para Siempre</span>
+          <span class="c-img">foto6.jpg</span>
+          <span class="c-texto">Si pudiera elegir una sola cosa para llevarme al fin del mundo, te elegiría a ti. No porque seas perfecto/a, sino porque con tus defectos, tus manías y tu manera única de ser, eres exactamente lo que necesito. Para siempre suena bien si es contigo.</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FILA 2 -->
+  <div class="row">
+    <div class="row-header">
+      <div class="row-title">Porque Te Quiero</div>
+      <div class="row-subtitle">Cada foto tiene su mensaje</div>
+    </div>
+    <div class="cards-scroll">
+
+      <div class="card c3" onclick="abrirCarta(this)">
+        <img src="foto7.jpg" alt="" onerror="this.style.display='none'">
+        <div class="card-overlay"></div>
+        <div class="card-play"><div class="card-play-arrow"></div></div>
+        <div class="card-label">Razón #1</div>
+        <div class="carta-data" hidden>
+          <span class="c-episode">Razón 1</span>
+          <span class="c-title">Por Tu Forma de Ser</span>
+          <span class="c-img">foto7.jpg</span>
+          <span class="c-texto">Te quiero porque eres auténtico/a. Nunca finges ser algo que no eres. En un mundo donde todo parece artificial, tú eres lo más real que tengo. Esa honestidad tuya, aunque a veces duela, es una de las cosas que más admiro de ti.</span>
+        </div>
+      </div>
+
+      <div class="card c1" onclick="abrirCarta(this)">
+        <img src="foto8.jpg" alt="" onerror="this.style.display='none'">
+        <div class="card-overlay"></div>
+        <div class="card-play"><div class="card-play-arrow"></div></div>
+        <div class="card-label">Razón #2</div>
+        <div class="carta-data" hidden>
+          <span class="c-episode">Razón 2</span>
+          <span class="c-title">Por Tu Risa</span>
+          <span class="c-img">foto8.jpg</span>
+          <span class="c-texto">Tu risa es contagiosa y me hace mejor persona. Cuando te ríes de verdad, con esa risa que no puedes controlar, el mundo entero parece más ligero. Quiero ser la razón de esa risa todos los días que me queden.</span>
+        </div>
+      </div>
+
+      <div class="card c5" onclick="abrirCarta(this)">
+        <img src="foto9.jpg" alt="" onerror="this.style.display='none'">
+        <div class="card-overlay"></div>
+        <div class="card-play"><div class="card-play-arrow"></div></div>
+        <div class="card-label">Razón #3</div>
+        <div class="carta-data" hidden>
+          <span class="c-episode">Razón 3</span>
+          <span class="c-title">Por Tu Fuerza</span>
+          <span class="c-img">foto9.jpg</span>
+          <span class="c-texto">Has pasado por momentos duros y siempre has salido adelante. Esa fuerza que tienes dentro, aunque a veces tú mismo/a no la veas, me inspira cada día. Me siento afortunado/a de tener a alguien tan valiente a mi lado.</span>
+        </div>
+      </div>
+
+      <div class="card c2" onclick="abrirCarta(this)">
+        <img src="foto10.jpg" alt="" onerror="this.style.display='none'">
+        <div class="card-overlay"></div>
+        <div class="card-play"><div class="card-play-arrow"></div></div>
+        <div class="card-label">Razón #4</div>
+        <div class="carta-data" hidden>
+          <span class="c-episode">Razón 4</span>
+          <span class="c-title">Por Cómo Me Cuidas</span>
+          <span class="c-img">foto10.jpg</span>
+          <span class="c-texto">Nadie me ha cuidado como tú. Esos detalles pequeños que crees que no noto, los noto todos. El mensaje a tiempo, el abrazo sin razón, el "¿has comido?" cuando sabes que se me olvida. Eso es amor de verdad, y tú lo tienes a raudales.</span>
+        </div>
+      </div>
+
+      <div class="card c4" onclick="abrirCarta(this)">
+        <img src="foto11.jpg" alt="" onerror="this.style.display='none'">
+        <div class="card-overlay"></div>
+        <div class="card-play"><div class="card-play-arrow"></div></div>
+        <div class="card-label">Razón #5</div>
+        <div class="carta-data" hidden>
+          <span class="c-episode">Razón 5</span>
+          <span class="c-title">Por Todo Lo Demás</span>
+          <span class="c-img">foto11.jpg</span>
+          <span class="c-texto">Y te quiero por todo lo que no sé cómo explicar. Por esa presencia tuya que hace que todo esté bien. Por ser mi casa, mi calma, mi persona favorita. Gracias por existir y por dejarme quererte.</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL CARTA DE AMOR -->
+<div class="modal-bg" id="modal">
+  <div class="modal-backdrop" onclick="cerrarCarta()"></div>
+  <div class="modal-card">
+    <button class="modal-close" onclick="cerrarCarta()">✕</button>
+    <img id="modal-img" class="modal-img" src="" alt="">
+    <div id="modal-img-placeholder" class="modal-img-placeholder" style="display:none;">💕</div>
+    <div class="modal-body">
+      <div class="modal-episode" id="modal-episode"></div>
+      <div class="modal-title" id="modal-title"></div>
+      <div class="modal-letter" id="modal-letter"></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div>NETFLIX · Una producción original de amor</div>
+  <div style="margin-top:8px;">
+    <a href="nosotros.html">Nuestra Historia</a> · 
+    <a href="momentos.html">Momentos</a> · 
+    <a href="carta.html">Carta Para Ti</a> · 
+    <a href="galeria.html">Galería</a>
+  </div>
+</footer>
+
 <script>
-// ════════════════════════════════════════════
-//  ✦  EDITA AQUÍ  ✦
-//  Cambia "Tu nombre" y añade/quita razones
-// ════════════════════════════════════════════
-const CONFIG = {
-  nombreNovia: "Yassmine",      // ← pon su nombre aquí
-  nombreTuyo:  "Tarik",           // ← pon tu nombre aquí
-  razones: [
-    { nombre: "de7ktek",       texto: "de7ka dyalk hiya a7san haja chafet 3yni ahbiba w kantmna tb9ay dima da7eka w fre7na " ,foto:null},
-    { nombre: "kifach katfkeri ",     texto: "3ndki 3e9liya zwina w kay3jbni kifach kathderi w kifach katfkri " ,foto:null},
-    { nombre: "bzazlk",    texto: "kay3jboni bzazlki w homa mn asbab li khlawni nb4ik " ,foto:null},
-    { nombre: "che3rki ",      texto: "che3rki twil retab li atb9ay t4tay bih w dirili dik l4deba li 9oltili dik lmra fach konti 7daya hhhh",foto : "foto1.jpeg" },
-    { nombre: "termtk",    texto: "kat3jbni tremtk wa3era " ,foto:null},
-    { nombre: "3winatki ",      texto: "3winatki li kaylm3o fach katkoni 7daya ",foto: "foto2.jpeg" },
-    { nombre: "de7ktki 3awtani",     texto: "ms had lmra fach kadiri dik lbtisama dyal l7ob li fach kankon 7dak w kaykono ta 3yniki kaylm3o",foto: "foto3.jpeg" },
-    { nombre: "tbonki",  texto: "w tab3an maymknch mandkroch tbonki l4zal l4ozi lwa3er a33333 n3deo hhhh ",foto:null },
-    { nombre: "ydik ",      texto: "ydik zwinin w l7nanin fach kay9soli f wejhi w la fach kay3tiwni chi terf dyal djaj machi nachef wla fach kanboshom li ma3raftch 3lach b4ithom ms ydik wa3rin " ,foto: "foto4.jpeg"},
-    { nombre: "ri7tk ",      texto: "ri7a li katkon fiki fach naboski mn 3n9ek wla kan9reb lik wla kan3ne9k li makrahtch kon kantfseha f3awet lhwa ahbiba ri7tek wa3era" ,foto: "foto5.jpeg"},
-    { nombre: "kerchk",    texto: "krechki lwa3ra li b4it n7et rasi 3liha chi nhar w ykon fiha weldi kayfrkel ldakhel " ,foto: "foto6.jpeg"},
-    { nombre: "fkhidatk",  texto: "fkhadek fach kankhchi ydi f t9ti3a dyal srwal w kan9ishom wla fach katkoni galsa 3ndi ",foto:null },
-    { nombre: "rejlik",    texto: "rjilatki zwinin w dik lwinat lwa3rin li kadirilihom wli makhlitinich nswerhom 7it banolki 3wjin ya l3aweja hhhhh",foto:null },
-    { nombre: "kolchi ",       texto: "makaynach chi haja fik ahbiba makat3jbnich wla manb4ihach fiki kolki wa3ra kanb4ik " ,foto:null},
-  ]
-};
-// ════════════════════════════════════════════
-
-// ── Background starfield ──
-const canvas = document.getElementById('sky');
-const ctx = canvas.getContext('2d');
-let W, H, stars = [];
-
-function resizeCanvas() {
-  W = canvas.width  = window.innerWidth;
-  H = canvas.height = document.body.scrollHeight;
-  buildStars();
-}
-
-function buildStars() {
-  stars = [];
-  const n = Math.floor((W * H) / 3000);
-  for (let i = 0; i < n; i++) {
-    stars.push({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      r: Math.random() * 1.2 + 0.2,
-      alpha: Math.random() * 0.6 + 0.15,
-      speed: Math.random() * 0.015 + 0.005,
-      phase: Math.random() * Math.PI * 2
-    });
-  }
-}
-
-let t = 0;
-function drawBg() {
-  ctx.clearRect(0, 0, W, H);
-  ctx.fillStyle = '#06020f';
-  ctx.fillRect(0, 0, W, H);
-
-  // nebula blobs
-  const blobs = [
-    { x: W*0.2, y: H*0.25, r: W*0.3, c: 'rgba(80,20,120,0.06)' },
-    { x: W*0.75, y: H*0.6, r: W*0.28, c: 'rgba(40,10,90,0.07)' },
-    { x: W*0.5, y: H*0.1,  r: W*0.2, c: 'rgba(100,30,60,0.05)' },
-  ];
-  blobs.forEach(b => {
-    const g = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
-    g.addColorStop(0, b.c);
-    g.addColorStop(1, 'transparent');
-    ctx.fillStyle = g;
-    ctx.fillRect(0, 0, W, H);
-  });
-
-  t += 0.008;
-  stars.forEach(s => {
-    const a = s.alpha * (0.6 + 0.4 * Math.sin(t * s.speed * 80 + s.phase));
-    ctx.beginPath();
-    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(240,235,255,${a})`;
-    ctx.fill();
-  });
-  requestAnimationFrame(drawBg);
-}
-
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
-drawBg();
-
-// ── Build constellation SVG ──
-const svg = document.getElementById('constellation-svg');
-const NS = 'http://www.w3.org/2000/svg';
-const razones = CONFIG.razones;
-const total = razones.length;
-document.getElementById('total-count').textContent = total;
-
-// Lay out stars in a loose organic pattern
-function layoutStars(n, W, H) {
-  const pts = [];
-  const cols = Math.ceil(Math.sqrt(n * 1.6));
-  const rows = Math.ceil(n / cols);
-  const cellW = W / cols;
-  const cellH = H / rows;
-  const used = [];
-  for (let i = 0; i < n; i++) {
-    const col = i % cols;
-    const row = Math.floor(i / cols);
-    const x = cellW * col + cellW * (0.2 + Math.random() * 0.6);
-    const y = cellH * row + cellH * (0.2 + Math.random() * 0.6);
-    pts.push({ x: Math.round(x), y: Math.round(y) });
-  }
-  return pts;
-}
-
-const vW = 900, vH = 560;
-const pad = 60;
-const positions = layoutStars(total, vW - pad*2, vH - pad*2).map(p => ({
-  x: p.x + pad, y: p.y + pad
-}));
-
-// Draw constellation lines (connect nearest neighbours lightly)
-function nearestNeighbourLines(pts) {
-  const lines = [];
-  pts.forEach((a, i) => {
-    let best = Infinity, bestJ = -1;
-    pts.forEach((b, j) => {
-      if (i === j) return;
-      const d = Math.hypot(a.x - b.x, a.y - b.y);
-      if (d < best) { best = d; bestJ = j; }
-    });
-    if (bestJ >= 0 && !lines.find(l => (l[0]===i&&l[1]===bestJ)||(l[0]===bestJ&&l[1]===i))) {
-      lines.push([i, bestJ]);
-    }
-  });
-  // add a few longer connections for visual richness
-  pts.forEach((a, i) => {
-    const dists = pts.map((b,j) => ({ j, d: Math.hypot(a.x-b.x,a.y-b.y) }))
-      .filter(x => x.j !== i)
-      .sort((a,b) => a.d - b.d);
-    const second = dists[1];
-    if (second && !lines.find(l => (l[0]===i&&l[1]===second.j)||(l[0]===second.j&&l[1]===i))) {
-      lines.push([i, second.j]);
-    }
-  });
-  return lines;
-}
-
-const lines = nearestNeighbourLines(positions);
-lines.forEach(([a, b]) => {
-  const el = document.createElementNS(NS, 'path');
-  el.setAttribute('class', 'constellation-line');
-  el.setAttribute('d', `M${positions[a].x},${positions[a].y} L${positions[b].x},${positions[b].y}`);
-  svg.appendChild(el);
+// Navbar scroll
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60);
 });
 
-// Draw stars
-const starSizes = [6, 7, 8, 5, 9, 6, 7, 8, 5, 7, 6, 8, 7, 6, 5];
-let visitedCount = 0;
+// Modal carta de amor
+function abrirCarta(card){
+  const d=card.querySelector('.carta-data');
+  const episode=d.querySelector('.c-episode').textContent;
+  const title=d.querySelector('.c-title').textContent;
+  const img=d.querySelector('.c-img').textContent;
+  const texto=d.querySelector('.c-texto').textContent;
 
-positions.forEach((pos, i) => {
-  const r = starSizes[i % starSizes.length];
-  const g = document.createElementNS(NS, 'g');
-  g.setAttribute('class', 'star-group');
-  g.setAttribute('data-index', i);
-  g.setAttribute('tabindex', '0');
-  g.setAttribute('role', 'button');
-  g.setAttribute('aria-label', razones[i].nombre);
+  document.getElementById('modal-episode').textContent=episode;
+  document.getElementById('modal-title').textContent=title;
 
-  // glow
-  const glow = document.createElementNS(NS, 'circle');
-  glow.setAttribute('class', 'star-glow');
-  glow.setAttribute('cx', pos.x); glow.setAttribute('cy', pos.y);
-  glow.setAttribute('r', r + 9);
+  // Texto con firma
+  document.getElementById('modal-letter').innerHTML=
+    '<p>'+texto+'</p><span class="firma">— Con todo mi amor ❤️</span>';
 
-  // core
-  const core = document.createElementNS(NS, 'circle');
-  core.setAttribute('class', 'star-core');
-  core.setAttribute('cx', pos.x); core.setAttribute('cy', pos.y);
-  core.setAttribute('r', r);
+  // Imagen
+  const modalImg=document.getElementById('modal-img');
+  const placeholder=document.getElementById('modal-img-placeholder');
+  modalImg.src=img;
+  modalImg.onerror=function(){this.style.display='none';placeholder.style.display='flex';};
+  modalImg.onload=function(){this.style.display='block';placeholder.style.display='none';};
+  modalImg.style.display='block';
+  placeholder.style.display='none';
 
-  // 4-point sparkle
-  const sparkle = document.createElementNS(NS, 'path');
-  const s = r * 0.5;
-  sparkle.setAttribute('d', `M${pos.x},${pos.y-r*1.7} L${pos.x+s*0.3},${pos.y-s*0.3} L${pos.x+r*1.7},${pos.y} L${pos.x+s*0.3},${pos.y+s*0.3} L${pos.x},${pos.y+r*1.7} L${pos.x-s*0.3},${pos.y+s*0.3} L${pos.x-r*1.7},${pos.y} L${pos.x-s*0.3},${pos.y-s*0.3} Z`);
-  sparkle.setAttribute('fill', 'rgba(240,234,255,0.6)');
-  sparkle.setAttribute('pointer-events', 'none');
-
-  // label
-  const label = document.createElementNS(NS, 'text');
-  label.setAttribute('class', 'star-label');
-  label.setAttribute('x', pos.x);
-  label.setAttribute('y', pos.y + r + 14);
-  label.setAttribute('text-anchor', 'middle');
-  label.textContent = razones[i].nombre;
-
-  g.appendChild(glow);
-  g.appendChild(core);
-  g.appendChild(sparkle);
-  g.appendChild(label);
-  svg.appendChild(g);
-
-  function openModal() {
-    if (!g.classList.contains('visited')) {
-      g.classList.add('visited');
-      visitedCount++;
-      document.getElementById('visited-count').textContent = visitedCount;
-    }
-    document.getElementById('modal-num').textContent = `✦  ${i+1} de ${total}  ✦`;
-    document.getElementById('modal-name').textContent = razones[i].nombre;
-    document.getElementById('modal-text').textContent = razones[i].texto;
-    const photoWrap = document.getElementById('modal-photo-wrap');
-const photoEl   = document.getElementById('modal-photo');
-if (razones[i].foto) {
-  photoEl.src = razones[i].foto;
-  photoWrap.classList.add('visible');
-} else {
-  photoEl.src = '';
-  photoWrap.classList.remove('visible');
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow='hidden';
 }
-document.getElementById('modal-backdrop').classList.add('open');
-  }
 
-  g.addEventListener('click', openModal);
-  g.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openModal(); });
-});
+function cerrarCarta(){
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow='';
+}
 
-// Add a twinkle animation to random stars
-setTimeout(() => {
-  document.querySelectorAll('.star-core').forEach((c, i) => {
-    c.style.animation = `twinkle ${2 + Math.random()*3}s ${Math.random()*2}s infinite`;
-  });
-}, 1500);
-
-// Modal close
-const backdrop = document.getElementById('modal-backdrop');
-document.getElementById('modal-close').addEventListener('click', () => backdrop.classList.remove('open'));
-backdrop.addEventListener('click', e => { if (e.target === backdrop) backdrop.classList.remove('open'); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') backdrop.classList.remove('open'); });
-
-// Resize canvas on scroll
-window.addEventListener('scroll', () => {
-  const newH = document.body.scrollHeight;
-  if (newH !== H) { H = canvas.height = newH; buildStars(); }
-});
+// Cerrar con ESC
+document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrarCarta();});
 </script>
 </body>
 </html>
