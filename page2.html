@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Happy Birthday</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dancing+Script:400,700">
+<style>
+html,body{margin:0;padding:0;width:100%;height:100%;overflow:hidden;touch-action:none;font-family:'Dancing Script',cursive,serif}
+html{background:linear-gradient(rgba(0,0,0,.25),rgba(0,0,0,.55)) center/cover no-repeat,url('foto10.jpg') center/auto 100% repeat-x,#1a1a1a}
+canvas{position:absolute;inset:0;width:100%;height:100%;cursor:none}
+#opening{position:absolute;inset:0;z-index:500;background:rgba(255,120,40,.15);cursor:pointer}
+h2{position:absolute;inset:0;margin:auto;height:60px;padding-bottom:10%;color:#fff;letter-spacing:8px;text-align:center;z-index:300;font-size:4.5vw;line-height:normal;
+text-shadow:0 3px 0 #b2a98f,0 14px 10px rgba(0,0,0,.15),0 24px 2px rgba(0,0,0,.1),0 34px 30px rgba(0,0,0,.1);pointer-events:none}
+@media(max-width:700px){h2{font-size:9vw}}
+.spinning{animation:spin 8s infinite linear}
+@keyframes spin{to{transform:rotateY(360deg)}}
+.out{animation:out 2s both}
+@keyframes out{to{opacity:0;transform:scale(1.1)}}
+.pin{animation:pin 2.5s both}
+@keyframes pin{from{opacity:0;transform:scale(1.15)}}
+.player{position:absolute;right:5%;top:calc(30px + env(safe-area-inset-top,0px));z-index:600;text-align:center;opacity:.7;display:none}
+.player button{background:transparent;border:1px solid #fff;border-radius:50%;color:#fff;width:44px;height:44px;margin:0 4px;font-size:16px;cursor:pointer}
+.player button:hover{color:#999;border-color:#999}
+#bar{height:5px;background:#ffd9b3;margin:1em 0;position:relative}
+#prog{position:absolute;left:0;height:5px;background:#fff;width:0}
+
+/* ===== BOTÓN "Frida dyalk" ===== */
+#frida{
+  position:fixed;left:50%;
+  bottom:calc(10% + env(safe-area-inset-bottom,0px));
+  transform:translateX(-50%) scale(.2);
+  opacity:0;pointer-events:none;z-index:700;
+  overflow:hidden;white-space:nowrap;
+  padding:18px 46px;border-radius:999px;
+  font-family:'Dancing Script',cursive;font-weight:700;font-size:2.1rem;
+  color:#fff;text-decoration:none;cursor:pointer;
+  border:2px solid rgba(255,255,255,.8);
+  background:linear-gradient(135deg,#ff4f9a,#ff9a3c,#ff4f9a);
+  background-size:200% 200%;
+  text-shadow:0 2px 6px rgba(0,0,0,.35);
+}
+#frida span{display:inline-block}
+#frida.show{
+  pointer-events:auto;
+  animation:pop 1.1s cubic-bezier(.2,1.6,.4,1) forwards,
+            glow 2s ease-in-out 1.1s infinite,
+            grad 4s linear infinite;
+}
+#frida.show span{animation:beat 1.4s ease-in-out 1.1s infinite}
+#frida::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.65) 50%,transparent 70%);
+  transform:translateX(-100%);
+  animation:sweep 2.6s ease-in-out 1.2s infinite;
+}
+#frida:hover{filter:brightness(1.12)}
+#frida:active{transform:translateX(-50%) scale(.95)}
+@keyframes pop{
+  0%{opacity:0;transform:translateX(-50%) scale(.2) rotate(-10deg)}
+  100%{opacity:1;transform:translateX(-50%) scale(1) rotate(0)}
+}
+@keyframes glow{
+  0%,100%{box-shadow:0 0 18px rgba(255,79,154,.6),0 0 40px rgba(255,79,154,.3)}
+  50%{box-shadow:0 0 34px rgba(255,154,60,.95),0 0 70px rgba(255,154,60,.5)}
+}
+@keyframes grad{to{background-position:200% 50%}}
+@keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes sweep{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+@media(max-width:700px){#frida{font-size:1.7rem;padding:16px 34px}}
+</style>
+</head>
+<body>
+<div id="opening"><h2 class="spinning"> Happy Birthday<br>click bach tbday</h2></div>
+<div class="player" id="player">
+  <button id="mute">🔊</button><button id="pp">❚❚</button><button id="stop">■</button>
+  <div id="bar"><span id="prog"></span></div>
+</div>
+<h2 id="lyric" style="display:none"></h2>
+
+<!-- Botón que aparece cuando acaba la música y lleva a flor.html -->
+<a id="frida" href="flor.html"><span>✨ wrida dyalk ✨</span></a>
+
+<script>
+// ---- CONFIGURA AQUÍ ----
+var NAME = "Yassamine";     // nombre del cumpleañero/a
+var BEAT = 0.65;            // segundos por pulso (más alto = más lento)
+// ------------------------
+
+// ===== Tartas cayendo =====
+var cv = document.createElement('canvas'); document.body.appendChild(cv);
+var ctx = cv.getContext('2d'), W, H;
+function resize(){ W = cv.width = cv.offsetWidth; H = cv.height = cv.offsetHeight; }
+window.addEventListener('resize', resize); resize();
+
+var cake = document.createElement('canvas'); cake.width = cake.height = 128;
+var cc = cake.getContext('2d'); cc.font = '104px serif'; cc.textAlign = 'center'; cc.textBaseline = 'middle';
+cc.fillText('🎂', 64, 70);
+
+var ptr = {x: W/2, y: H/2};
+window.addEventListener('mousemove', function(e){ ptr.x = e.clientX; ptr.y = e.clientY; });
+cv.addEventListener('touchmove', function(e){ e.preventDefault(); var t = e.targetTouches[0]; ptr.x = t.clientX; ptr.y = t.clientY; }, {passive:false});
+
+var N = 300, S = 40, ps = [];
+function reset(p){ p.x = W*.5 + Math.random()*200 - 100; p.y = -S; p.vx = 0; p.vy = 0; }
+for (var i = 0; i < N; i++){ var p = {}; reset(p); p.y = -S - Math.random()*200; p.vy = Math.random(); ps.push(p); }
+
+(function loop(){
+  requestAnimationFrame(loop);
+  ctx.clearRect(0, 0, W, H);
+  ctx.drawImage(cake, ptr.x - 100, ptr.y - 100, 200, 200);
+  for (var i = 0; i < N; i++){
+    var p = ps[i];
+    p.y += p.vy; p.x += p.vx; p.vy += .1;
+    if (p.y > H) reset(p);
+    var dx = p.x - ptr.x, dy = p.y - ptr.y, r = 100 + S*.5, d = dx*dx + dy*dy;
+    if (d < r*r){
+      d = Math.sqrt(d); dx /= d; dy /= d; d = (r - d)*1.1; dx *= d; dy *= d;
+      p.x += dx; p.y += dy;
+      p.vx = .5*dx + (p.x >= ptr.x ? 2 : -2); p.vy = .5*dy;
+    }
+    ctx.drawImage(cake, p.x - S/2, p.y - S/2, S, S);
+  }
+})();
+
+// ===== Música: Happy Birthday sintetizada (sin archivos externos) =====
+var F = {G4:392,A4:440,B4:493.88,C5:523.25,D5:587.33,E5:659.25,F5:698.46,G5:783.99};
+var phrases = [
+  {t:"Happy birthday to you", n:[["G4",.75],["G4",.25],["A4",1],["G4",1],["C5",1],["B4",2]]},
+  {t:"Happy birthday to you", n:[["G4",.75],["G4",.25],["A4",1],["G4",1],["D5",1],["C5",2]]},
+  {t:"Happy birthday dear <br>NAME", n:[["G4",.75],["G4",.25],["G5",1],["E5",1],["C5",1],["B4",1],["A4",1]]},
+  {t:"Happy birthday to you", n:[["F5",.75],["F5",.25],["E5",1],["C5",1],["D5",1],["C5",2]]}
+];
+var LOOPS = 2, LEAD = 0.6, TOTAL = LEAD + LOOPS*24*BEAT;
+var ac, master, cues, startAt, rafId, muted = false, finished = false;
+var fridaBtn = document.getElementById('frida');
+
+function showBtn(){ fridaBtn.classList.add('show'); }
+function hideBtn(){ fridaBtn.classList.remove('show'); }
+
+function begin(){
+  hideBtn();
+  ac = new (window.AudioContext || window.webkitAudioContext)();
+  master = ac.createGain(); master.gain.value = muted ? 0 : .35; master.connect(ac.destination);
+  startAt = ac.currentTime + .1; cues = []; finished = false;
+  var beat = 0;
+  for (var l = 0; l < LOOPS; l++){
+    phrases.forEach(function(ph){
+      cues.push({at: LEAD + beat*BEAT, html: ph.t.replace('NAME', NAME)});
+      ph.n.forEach(function(nt){
+        var t0 = startAt + LEAD + beat*BEAT, dur = nt[1]*BEAT;
+        var o = ac.createOscillator(), g = ac.createGain();
+        o.type = 'triangle'; o.frequency.value = F[nt[0]];
+        g.gain.setValueAtTime(0, t0);
+        g.gain.linearRampToValueAtTime(1, t0 + .02);
+        g.gain.exponentialRampToValueAtTime(.001, t0 + dur*.95);
+        o.connect(g); g.connect(master); o.start(t0); o.stop(t0 + dur);
+        beat += nt[1];
+      });
+    });
+  }
+  cues.push({at: TOTAL + .5, html: "¡Happy Birthday!"});
+  cues.push({at: TOTAL + 1.8, fn: showBtn});   // el botón sale cuando acaba la música
+  cues.forEach(function(c){ c.done = false; });
+  tick();
+}
+
+function show(html){
+  var h = document.getElementById('lyric');
+  h.style.display = 'block'; h.innerHTML = html;
+  h.classList.remove('pin'); void h.offsetWidth; h.classList.add('pin');
+}
+
+function tick(){
+  rafId = requestAnimationFrame(tick);
+  var t = ac.currentTime - startAt;
+  cues.forEach(function(c){
+    if (!c.done && t >= c.at){
+      c.done = true;
+      if (c.fn) c.fn(); else show(c.html);
+    }
+  });
+  document.getElementById('prog').style.width = Math.min(100, t / (TOTAL + .5) * 100) + '%';
+}
+
+var opening = document.getElementById('opening'), player = document.getElementById('player');
+var pp = document.getElementById('pp');
+
+opening.addEventListener('click', function(){
+  opening.classList.add('out');
+  setTimeout(function(){ opening.style.display = 'none'; }, 2000);
+  player.style.display = 'block';
+  pp.textContent = '❚❚';
+  begin();
+});
+
+pp.addEventListener('click', function(){
+  if (ac.state === 'running'){ ac.suspend(); pp.textContent = '▶'; }
+  else { ac.resume(); pp.textContent = '❚❚'; }
+});
+
+document.getElementById('mute').addEventListener('click', function(){
+  muted = !muted; master.gain.value = muted ? 0 : .35;
+  this.textContent = muted ? '🔇' : '🔊';
+});
+
+document.getElementById('stop').addEventListener('click', function(){
+  cancelAnimationFrame(rafId); ac.close();
+  hideBtn();
+  document.getElementById('lyric').style.display = 'none';
+  document.getElementById('prog').style.width = '0';
+  player.style.display = 'none';
+  opening.style.display = 'block'; opening.classList.remove('out');
+});
+</script>
+</body>
+</html>
